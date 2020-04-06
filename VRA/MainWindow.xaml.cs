@@ -72,31 +72,106 @@ namespace VRA
             dgArtists.ItemsSource = items;
         }
 
-        private void RefreshA_Click(object sender, RoutedEventArgs e)
+        private void Refresh_Click(object sender, RoutedEventArgs e)
+        {
+            switch (status)
+            {
+                case "Artist":
+                    this.RefreshA_Click();
+                    break;
+                case "Work":
+                    //this.RefreshW_Click();
+                    break;
+                case "Customer":
+                    //this.RefreshC_Click();
+                    break;
+                case "Nations":
+                    //this.RefreshN_Click();
+                    break;
+                case "Interests":
+                    //this.RefreshI_Click();
+                    break;
+                default:
+                    MessageBox.Show("Необходимо выбрать таблицу, в которую добавляется элемент!");
+                    return;
+            }   
+        }
+
+        private void RefreshA_Click()
         {
             dgArtists.ItemsSource = ProcessFactory.GetArtistProcess().GetList();
+        }
+
+        private void btnDelete_Click(object sender, RoutedEventArgs e)
+        {
+            switch (status)
+            {
+                case "Artist":
+                    this.btnDeleteA_Click(sender, e);
+                    break;
+                case "Work":
+                    //this.btnDeleteW_Click(sender, e);
+                    break;
+                case "Customer":
+                    //this.btnDeleteC_Click(sender, e);
+                    break;
+                case "Nations":
+                    //this.btnDeleteN_Click(sender, e);
+                    break;
+                case "Interests":
+                    //this.btnDeleteI_Click(sender, e);
+                    break;
+                default:
+                    MessageBox.Show("Необходимо выбрать таблицу, из которой удаляется элемент!");
+                    return;
+            }
         }
 
         private void btnDeleteA_Click(object sender, RoutedEventArgs e)
         {
             ArtistDto item = dgArtists.SelectedItem as ArtistDto;
 
-            if(item == null)
+            if (item == null)
             {
                 MessageBox.Show("Выберите запись для удаления", "Удаление художника");
                 return;
             }
 
-            MessageBoxResult result = MessageBox.Show("Удалить художника "+item.Name +"?","Удаление художника", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            MessageBoxResult result = MessageBox.Show("Удалить художника " + item.Name + "?", "Удаление художника", MessageBoxButton.YesNo, MessageBoxImage.Warning);
 
-            if(result != MessageBoxResult.Yes)
+            if (result != MessageBoxResult.Yes)
             {
                 return;
             }
 
             ProcessFactory.GetArtistProcess().Delete(item.Id);
 
-            RefreshA_Click(sender, e);
+            Refresh_Click(sender, e);
+        }
+
+        private void btnEdit_Click(object sender, RoutedEventArgs e)
+        {
+            switch (status)
+            {
+                case "Artist":
+                    this.btnEditA_Click(sender, e);
+                    break;
+                case "Work":
+                    //this.btnEditW_Click(sender, e);
+                    break;
+                case "Customer":
+                    //this.btnEditC_Click(sender, e);
+                    break;
+                case "Nations":
+                    //this.btnEditN_Click(sender, e);
+                    break;
+                case "Interests":
+                    //this.btnEditI_Click(sender, e);
+                    break;
+                default:
+                    MessageBox.Show("Необходимо выбрать таблицу, в которой редактируется элемент!");
+                    return;
+            }
         }
 
         private void btnEditA_Click(object sender, RoutedEventArgs e)
@@ -112,7 +187,7 @@ namespace VRA
             AddArtistWindow window = new AddArtistWindow();
             window.Load(item);
             window.ShowDialog();
-            RefreshA_Click(sender, e);
+            Refresh_Click(sender, e);
         }
 
         private void btnDatabase_Click(object sender, RoutedEventArgs e)
@@ -151,7 +226,7 @@ namespace VRA
             this.btnDelete.Visibility = Visibility.Visible;
             this.btnRefresh.Visibility = Visibility.Visible;
             //this.btnSearch.Visibility = Visibility.Visible;
-            this.RefreshA_Click(sender, e);
+            Refresh_Click(sender, e);
         }
     }
 }
