@@ -52,7 +52,7 @@ namespace VRA
                     //this.btnAddC_Click();
                     break;
                 case "Nations":
-                    //this.btnAddN_Click();
+                    this.btnAddN_Click();
                     break;
                 case "Interests":
                     //this.btnAddI_Click();
@@ -61,6 +61,15 @@ namespace VRA
                     MessageBox.Show("Необходимо выбрать таблицу, в которую добавляется элемент!");
                     return;
             }
+        }
+
+        private void btnAddN_Click()
+        {
+            AddNationWindow window = new AddNationWindow();
+            window.ShowDialog();
+
+            IList<NationDto> items = ProcessFactory.GetNationProcess().GetList();
+            dgNations.ItemsSource = items;
         }
 
         private void btnAddA_Click()
@@ -86,7 +95,7 @@ namespace VRA
                     //this.RefreshC_Click();
                     break;
                 case "Nations":
-                    //this.RefreshN_Click();
+                    this.RefreshN_Click();
                     break;
                 case "Interests":
                     //this.RefreshI_Click();
@@ -95,6 +104,11 @@ namespace VRA
                     MessageBox.Show("Необходимо выбрать таблицу, в которую добавляется элемент!");
                     return;
             }   
+        }
+
+        private void RefreshN_Click()
+        {
+            dgNations.ItemsSource = ProcessFactory.GetNationProcess().GetList();
         }
 
         private void RefreshA_Click()
@@ -116,7 +130,7 @@ namespace VRA
                     //this.btnDeleteC_Click(sender, e);
                     break;
                 case "Nations":
-                    //this.btnDeleteN_Click(sender, e);
+                    this.btnDeleteN_Click(sender, e);
                     break;
                 case "Interests":
                     //this.btnDeleteI_Click(sender, e);
@@ -125,6 +139,28 @@ namespace VRA
                     MessageBox.Show("Необходимо выбрать таблицу, из которой удаляется элемент!");
                     return;
             }
+        }
+
+        private void btnDeleteN_Click(object sender, RoutedEventArgs e)
+        {
+            NationDto item = dgNations.SelectedItem as NationDto;
+
+            if (item == null)
+            {
+                MessageBox.Show("Выберите запись для удаления", "Удаление художника");
+                return;
+            }
+
+            MessageBoxResult result = MessageBox.Show("Удалить национальность " + item.Nationality + "?", "Удаление национальности", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+
+            if (result != MessageBoxResult.Yes)
+            {
+                return;
+            }
+
+            ProcessFactory.GetNationProcess().Delete(item.Id);
+
+            Refresh_Click(sender, e);
         }
 
         private void btnDeleteA_Click(object sender, RoutedEventArgs e)
@@ -163,7 +199,7 @@ namespace VRA
                     //this.btnEditC_Click(sender, e);
                     break;
                 case "Nations":
-                    //this.btnEditN_Click(sender, e);
+                    this.btnEditN_Click(sender, e);
                     break;
                 case "Interests":
                     //this.btnEditI_Click(sender, e);
@@ -172,6 +208,22 @@ namespace VRA
                     MessageBox.Show("Необходимо выбрать таблицу, в которой редактируется элемент!");
                     return;
             }
+        }
+
+        private void btnEditN_Click(object sender, RoutedEventArgs e)
+        {
+            NationDto item = dgNations.SelectedItem as NationDto;
+
+            if (item == null)
+            {
+                MessageBox.Show("Выберите запись для редактирования", "Редактирование");
+                return;
+            }
+
+            AddNationWindow window = new AddNationWindow();
+            window.Load(item);
+            window.ShowDialog();
+            Refresh_Click(sender, e);
         }
 
         private void btnEditA_Click(object sender, RoutedEventArgs e)
@@ -198,27 +250,60 @@ namespace VRA
 
         private void btnArtists_Click(object sender, RoutedEventArgs e)
         {
-            //switch(status)
-            //{
-            //    case "Customer":
-            //        this.dgCustomer.Visibility = Visibility.Hidden;
-            //        break;
-            //    case "Work": 
-            //        this.dgWork.Visibility = Visibility.Hidden;
-            //        break;
-            //    case "Trans":
-            //        this.dgTrans.Visibility = Visibility.Hidden;
-            //        break;
-            //    case "Interests":
-            //        this.dgInterests.Visibility = Visibility.Hidden;
-            //        break;
-            //    case "Nations":
-            //        this.dgNations.Visibility = Visibility.Hidden;
-            //        break;
-            //}
+            switch (status)
+            {
+                case "Customer":
+                    //this.dgCustomer.Visibility = Visibility.Hidden;
+                    break;
+                case "Work":
+                    //this.dgWork.Visibility = Visibility.Hidden;
+                    break;
+                case "Trans":
+                    //this.dgTrans.Visibility = Visibility.Hidden;
+                    break;
+                case "Interests":
+                    //this.dgInterests.Visibility = Visibility.Hidden;
+                    break;
+                case "Nations":
+                    this.dgNations.Visibility = Visibility.Hidden;
+                    break;
+            }
             this.dgArtists.Visibility = Visibility.Visible;
             status = "Artist";
             this.statusLabel.Content = "Работа с таблицей: Художники";
+            this.btnAdd.Visibility = Visibility.Visible;
+            //this.btnPurchase.Visibility = Visibility.Collapsed;
+            //this.btnSale.Visibility = Visibility.Collapsed;
+            this.btnEdit.Visibility = Visibility.Visible;
+            this.btnDelete.Visibility = Visibility.Visible;
+            this.btnRefresh.Visibility = Visibility.Visible;
+            //this.btnSearch.Visibility = Visibility.Visible;
+            Refresh_Click(sender, e);
+        }
+
+        private void btnNations_Click(object sender, RoutedEventArgs e)
+        {
+            switch (status)
+            {
+                case "Customer":
+                    //this.dgCustomer.Visibility = Visibility.Hidden;
+                    break;
+                case "Work":
+                    //this.dgWork.Visibility = Visibility.Hidden;
+                    break;
+                case "Trans":
+                    //this.dgTrans.Visibility = Visibility.Hidden;
+                    break;
+                case "Interests":
+                    //this.dgInterests.Visibility = Visibility.Hidden;
+                    break;
+                case "Artists":
+                    this.dgNations.Visibility = Visibility.Hidden;
+                    break;
+            }
+            this.dgNations.Visibility = Visibility.Visible;
+            status = "Nations";
+            this.statusLabel.Content = "Работа с таблицей: Национальности";
             this.btnAdd.Visibility = Visibility.Visible;
             //this.btnPurchase.Visibility = Visibility.Collapsed;
             //this.btnSale.Visibility = Visibility.Collapsed;

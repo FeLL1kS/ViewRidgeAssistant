@@ -9,8 +9,8 @@ namespace VRA.DataAccess.Entities
     {
         public int ArtistId;
         public string Name;
-        public int BirthYear;
+        public int? BirthYear;
         public int? DeceaseYear;
-        public string Nationality;
+        public int NationId;
     }
 }

@@ -22,6 +22,11 @@
                 <DataGridTextColumn Header="Имя" Binding="{Binding Path=Name}" />
                 <DataGridTextColumn Header="Год рождения" Binding="{Binding  Path=BirthYear}" />
                 <DataGridTextColumn Header="Год смерти" Binding="{Binding Path=DeceaseYear}" />
+                <DataGridTextColumn Header="Национальность" Binding="{Binding Path=Nation.Nationality}" />
+            </DataGrid.Columns>
+        </DataGrid>
+        <DataGrid x:Name="dgNations" HorizontalAlignment="Left" Width="584" SelectionChanged="dgArtists_SelectionChanged" IsSynchronizedWithCurrentItem="True" IsReadOnly="True" AutoGenerateColumns="False" Grid.Column="1" Margin="0,2" Grid.Row="1" Visibility="Hidden">
+            <DataGrid.Columns>
                 <DataGridTextColumn Header="Национальность" Binding="{Binding Path=Nationality}" />
             </DataGrid.Columns>
         </DataGrid>
@@ -49,6 +54,15 @@
                 <StackPanel>
                     <Image Source="Artist.ico" Height="46" Width="71"/>
                     <TextBlock HorizontalAlignment="Center" Margin="1" FontSize="10"><Run Text="Художники"/></TextBlock>
+                </StackPanel>
+            </Button>
+            <Button HorizontalAlignment="Left" x:Name="btnNations" VerticalAlignment="Top" Height="70" Width="100" Click="btnNations_Click">
+                <Button.ToolTip>
+                    <TextBlock><Run Text="Информации о национальностях"/></TextBlock>
+                </Button.ToolTip>
+                <StackPanel>
+                    <Image Source="people.ico" Height="46" Width="71"/>
+                    <TextBlock HorizontalAlignment="Center" Margin="1" FontSize="10"><Run Text="Национальности"/></TextBlock>
                 </StackPanel>
             </Button>
         </StackPanel>

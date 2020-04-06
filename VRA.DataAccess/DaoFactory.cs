@@ -15,5 +15,9 @@ namespace VRA.DataAccess
         {
             return new SettingsDao();
         }
+        public static INationDao GetNationDao()
+        {
+            return new NationDao();
+        }
     }
 }

@@ -17,7 +17,7 @@
         <TextBlock HorizontalAlignment="Left" Margin="10,8,0,0" TextWrapping="Wrap" Text="Имя художника" VerticalAlignment="Top" Height="23" Width="139"/>
         <TextBlock HorizontalAlignment="Left" Margin="10,90,0,0" TextWrapping="Wrap" Text="Год смерти" VerticalAlignment="Top" Height="23" Width="139"/>
         <TextBlock HorizontalAlignment="Left" Margin="10,49,0,0" TextWrapping="Wrap" Text="Год рождения" VerticalAlignment="Top" Height="23" Width="139"/>
-        <ComboBox x:Name="cbNationality" Grid.Column="1" HorizontalAlignment="Left" Margin="0.4,131,0,0" VerticalAlignment="Top" Width="194" SelectionChanged="ComboBox_SelectionChanged"/>
+        <ComboBox x:Name="cbNationality" Grid.Column="1" HorizontalAlignment="Left" Margin="0.4,131,0,0" VerticalAlignment="Top" Width="194" SelectionChanged="ComboBox_SelectionChanged" ItemsSource="{Binding}" DisplayMemberPath="Nationality"/>
         <TextBlock HorizontalAlignment="Left" Margin="10,130,0,0" TextWrapping="Wrap" Text="Национальность" VerticalAlignment="Top" Height="23" Width="139"/>
         <Button x:Name="btnSave" Content="Сохранить" HorizontalAlignment="Left" VerticalAlignment="Top" Width="148" Margin="10,167,0,0" Grid.ColumnSpan="2" Click="btnSave_Click"/>
         <Button x:Name="btnCancel" Content="Отмена" HorizontalAlignment="Left" VerticalAlignment="Top" Width="148" Margin="46.4,167,0,0" Grid.Column="1" Click="btnCancel_Click"/>

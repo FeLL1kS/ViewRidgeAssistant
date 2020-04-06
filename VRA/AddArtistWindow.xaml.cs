@@ -20,27 +20,40 @@ namespace VRA
     /// </summary>
     public partial class AddArtistWindow : Window
     {
-        private static readonly string[] Nationalities = { "Русский", "Немец", "Испанец", "Итальянец" };
+        //private static readonly string[] Nationalities = { "Русский", "Немец", "Испанец", "Итальянец" };
         private int _id;
+
+        private readonly IList<NationDto> Nationalities = ProcessFactory.GetNationProcess().GetList();
 
         public AddArtistWindow()
         {
             InitializeComponent();
-            cbNationality.ItemsSource = Nationalities;
-            cbNationality.SelectedIndex = 0;
+            cbNationality.ItemsSource = (from N in Nationalities orderby N.Nationality select N);
         }
 
         public void Load(ArtistDto artist)
         {
-            if (artist == null || !Nationalities.Contains(artist.Nationality))
+            if (artist == null)
                 return;
 
             _id = artist.Id;
 
             tbName.Text = artist.Name;
             tbBirth.Text = artist.BirthYear.ToString();
-            tbDeath.Text = artist?.DeceaseYear.ToString();
-            cbNationality.SelectedItem = artist.Nationality;
+            if(artist.DeceaseYear.HasValue)
+                tbDeath.Text = artist.DeceaseYear.Value.ToString();
+            
+            if(artist.Nation != null)
+            {
+                foreach(NationDto nation in Nationalities)
+                {
+                    if(artist.Nation.Id == nation.Id)
+                    {
+                        this.cbNationality.SelectedItem = nation;
+                        break;
+                    }
+                }
+            }
         }
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
@@ -55,7 +68,7 @@ namespace VRA
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
-            int birth;
+            int? birth;
             int? death = null;
 
             if(string.IsNullOrEmpty(tbName.Text))
@@ -64,10 +77,26 @@ namespace VRA
                 return;
             }
 
-            if(!int.TryParse(tbBirth.Text, out birth))
+            if(tbBirth.Text != "")
             {
-                MessageBox.Show("Год рождения должен быть целым числом", "Проверка");
-                return;
+                try
+                {
+                    birth = int.Parse(this.tbBirth.Text);
+                }
+                catch
+                {
+                    MessageBox.Show("Год рождения должен быть целым числом", "Проверка");
+                    return;
+                }
+                if (birth < 1000 || birth > DateTime.Today.Year)
+                {
+                    MessageBox.Show("Галерея занимается продажей только произведений художников прошлого тысячелетия", "Проверка");
+                    return;
+                }
+            }
+            else
+            {
+                birth = null;
             }
 
             if(!string.IsNullOrEmpty(tbDeath.Text))
@@ -77,6 +106,12 @@ namespace VRA
                 if(!int.TryParse(tbDeath.Text, out intDeath))
                 {
                     MessageBox.Show("Год смерти должен быть целым числом", "Проверка");
+                    return;
+                }
+
+                if(intDeath < 1000 || intDeath > DateTime.Today.Year)
+                {
+                    MessageBox.Show("Год смерти введён неверно", "Проверка");
                     return;
                 }
 
@@ -93,7 +128,7 @@ namespace VRA
             artist.Name = tbName.Text;
             artist.BirthYear = birth;
             artist.DeceaseYear = death;
-            artist.Nationality = cbNationality.SelectedItem.ToString();
+            artist.Nation = cbNationality.SelectedItem as NationDto;
 
             IArtistProcess artistProcess = ProcessFactory.GetArtistProcess();
 

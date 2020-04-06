@@ -12,10 +12,10 @@ namespace VRA.Dto
         // Имя художник
         public string Name { get; set; }
         // Год рождения художника
-        public int BirthYear { get; set; }
+        public int? BirthYear { get; set; }
         // Год смерти художника
         public int? DeceaseYear { get; set; }
         // Национальность
-        public string Nationality { get; set; }
+        public NationDto Nation { get; set; }
     }
 }

@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using VRA.DataAccess.Entities;
-using System.Configuration;
 using System.Data.SqlClient;
 
 namespace VRA.DataAccess
 {
-    class ArtistDao : IArtistDao
+    class ArtistDao : BaseDao, IArtistDao
     {
         public void Add(Artist artist)
         {
@@ -17,10 +14,10 @@ namespace VRA.DataAccess
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = "INSERT INTO ARTIST(Name, BirthYear, DeceaseYear, Nationality) VALUES(@Name, @BirthYear, @DeceaseYear, @Nationality)";
+                    cmd.CommandText = "INSERT INTO ARTIST(Name, BirthYear, DeceaseYear, NatID) VALUES(@Name, @BirthYear, @DeceaseYear, @Nationality)";
                     cmd.Parameters.AddWithValue("@Name", artist.Name);
                     cmd.Parameters.AddWithValue("@BirthYear", artist.BirthYear);
-                    cmd.Parameters.AddWithValue("@Nationality", artist.Nationality);
+                    cmd.Parameters.AddWithValue("@Nationality", artist.NationId);
                     object decease = artist.DeceaseYear.HasValue ? (object)artist.DeceaseYear.Value : DBNull.Value;
                     cmd.Parameters.AddWithValue("@DeceaseYear", decease);
                     cmd.ExecuteNonQuery();
@@ -52,7 +49,7 @@ namespace VRA.DataAccess
                 using (var cmd = conn.CreateCommand())
                 {
                     //Задаём текст команды
-                    cmd.CommandText = "SELECT ArtistID, Name, BirthYear, DeceaseYear, Nationality FROM ARTIST WHERE ArtistID = @id";
+                    cmd.CommandText = "SELECT ArtistID, Name, BirthYear, DeceaseYear, NatID FROM ARTIST WHERE ArtistID = @id";
                     //Добавляем значение параметра
                     cmd.Parameters.AddWithValue("@id", id);
                     //Открываем SqlDataReader для чтения полученных в результате
@@ -74,7 +71,7 @@ namespace VRA.DataAccess
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = "SELECT ArtistID, Name, BirthYear, DeceaseYear, Nationality FROM ARTIST";
+                    cmd.CommandText = "SELECT ArtistID, Name, BirthYear, DeceaseYear, NatID FROM ARTIST";
                     using (var dataReader = cmd.ExecuteReader())
                     {
                         while (dataReader.Read())
@@ -94,25 +91,16 @@ namespace VRA.DataAccess
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = "UPDATE ARTIST SET Name = @Name, BirthYear = @BirthYear, DeceaseYear = @DeceaseYear, Nationality = @Nationality WHERE ArtistID = @ID";
+                    cmd.CommandText = "UPDATE ARTIST SET Name = @Name, BirthYear = @BirthYear, DeceaseYear = @DeceaseYear, NatID = @Nationality WHERE ArtistID = @ID";
                     cmd.Parameters.AddWithValue("@Name", artist.Name);
                     cmd.Parameters.AddWithValue("@BirthYear", artist.BirthYear);
                     cmd.Parameters.AddWithValue("@ID", artist.ArtistId);
-                    cmd.Parameters.AddWithValue("@Nationality", artist.Nationality);
+                    cmd.Parameters.AddWithValue("@Nationality", artist.NationId);
                     object decease = artist.DeceaseYear.HasValue ? (object)artist.DeceaseYear.Value : DBNull.Value;
                     cmd.Parameters.AddWithValue("@DeceaseYear", decease);
                     cmd.ExecuteNonQuery();
                 }
             }
-
-        }
-        private static string GetConnectionString()
-        {
-            return ConfigurationManager.ConnectionStrings["vradb"].ConnectionString;
-        }
-        private static SqlConnection GetConnection()
-        {
-            return new SqlConnection(GetConnectionString());
         }
         private static Artist LoadArtist(SqlDataReader reader)
         {
@@ -122,14 +110,14 @@ namespace VRA.DataAccess
             //полей результирующего набора данных
             artist.ArtistId = reader.GetInt32(reader.GetOrdinal("ArtistID"));
             artist.BirthYear = Convert.ToInt32(reader["BirthYear"]);
-            //Помните, что у нас поле DeceaseYear может иметь
-            //значение NULL?
+            //Помните, что у нас поле DeceaseYear может иметь значение NULL?
             //Следующие 3 строки корректно обрабатывают этот случай
             object decease = reader["DeceaseYear"];
             if (decease != DBNull.Value)
                 artist.DeceaseYear = Convert.ToInt32(decease);
             artist.Name = reader.GetString(reader.GetOrdinal("Name"));
-            artist.Nationality = reader.GetString(reader.GetOrdinal("Nationality"));
+            int pos = reader.GetOrdinal("NatID");
+            artist.NationId = reader[pos] == DBNull.Value ? -1 : reader.GetInt32(pos);
             return artist;
         }
     }

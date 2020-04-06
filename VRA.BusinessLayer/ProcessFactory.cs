@@ -8,7 +8,7 @@ namespace VRA.BusinessLayer
     public class ProcessFactory
     {
         /// <summary>
-        /// Возвращает объект, реализующий <seealso cref=«IArtistProcess»/>
+        /// Возвращает объект, реализующий <seealso cref="IArtistProcess"/>
         /// </summary>
         /// <returns></returns>
         public static IArtistProcess GetArtistProcess()
@@ -18,6 +18,10 @@ namespace VRA.BusinessLayer
         public static ISettingsProcess GetSettingsProcess()
         {
             return new SettingsProcess();
+        }
+        public static INationProcess GetNationProcess()
+        {
+            return new NationProcess();
         }
     }
 }

@@ -44,7 +44,9 @@
     <Compile Include="ArtistProcessDb.cs" />
     <Compile Include="Converters\DtoConverter.cs" />
     <Compile Include="IArtistProcess.cs" />
+    <Compile Include="INationProcess.cs" />
     <Compile Include="ISettingsProcess.cs" />
+    <Compile Include="NationProcess.cs" />
     <Compile Include="ProcessFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SettingsProcess.cs" />
