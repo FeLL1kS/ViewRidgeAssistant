@@ -125,10 +125,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Artist.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="people.ico" />
+    <Resource Include="component\Images\Add.ico" />
+    <Resource Include="component\Images\Artist.ico" />
+    <Resource Include="component\Images\Delete.ico" />
+    <Resource Include="component\Images\Edit.ico" />
+    <Resource Include="component\Images\people.ico" />
+    <Resource Include="component\Images\Refresh.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

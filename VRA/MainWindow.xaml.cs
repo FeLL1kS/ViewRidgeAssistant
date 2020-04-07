@@ -101,7 +101,7 @@ namespace VRA
                     //this.RefreshI_Click();
                     break;
                 default:
-                    MessageBox.Show("Необходимо выбрать таблицу, в которую добавляется элемент!");
+                    MessageBox.Show("Необходимо выбрать таблицу, которую хотите обновить!");
                     return;
             }   
         }
