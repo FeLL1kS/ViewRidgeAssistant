@@ -23,5 +23,10 @@ namespace VRA.BusinessLayer
         {
             return new NationProcess();
         }
+
+        public static ICustomerProcess GetCustomerProcess()
+        {
+            return new CustomerProcessDb();
+        }
     }
 }

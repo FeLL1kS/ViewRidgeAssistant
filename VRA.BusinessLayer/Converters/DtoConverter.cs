@@ -72,5 +72,54 @@ namespace VRA.BusinessLayer.Converters
             }
             return nations;
         }
+        public static CustomerDto Convert(Customer customer)
+        {
+            if (customer == null)
+                return null;
+            CustomerDto customerDto = new CustomerDto()
+            {
+                Id = customer.Id,
+                AreaCode = customer.AreaCode,
+                City = customer.City,
+                Country = customer.Country,
+                ZipPostalCode = customer.ZipPostalCode,
+                EMail = customer.EMail,
+                HouseNumber = customer.HouseNumber,
+                Name = customer.Name,
+                PhoneNumber = customer.PhoneNumber,
+                Region = customer.Region,
+                Street = customer.Street
+            };
+            return customerDto;
+        }
+        public static Customer Convert(CustomerDto customerDto)
+        {
+            if (customerDto == null)
+                return null;
+            Customer customer = new Customer()
+            {
+                Id = customerDto.Id,
+                Name = customerDto.Name,
+                City = customerDto.City,
+                Country = customerDto.Country,
+                AreaCode = customerDto.AreaCode,
+                ZipPostalCode = customerDto.ZipPostalCode,
+                EMail = customerDto.EMail,
+                HouseNumber = customerDto.HouseNumber,
+                PhoneNumber = customerDto.PhoneNumber,
+                Region = customerDto.Region,
+                Street = customerDto.Street
+            };
+            return customer;
+        }
+        internal static IList<CustomerDto> Convert(IList<Customer> customerList)
+        {
+            IList<CustomerDto> customerDtos = new List<CustomerDto>();
+            foreach(Customer customer in customerList)
+            {
+                customerDtos.Add(Convert(customer));
+            }
+            return customerDtos;
+        }
     }
 }

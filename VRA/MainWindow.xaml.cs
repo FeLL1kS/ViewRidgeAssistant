@@ -35,11 +35,6 @@ namespace VRA
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
-            //AddArtistWindow window = new AddArtistWindow(); 
-            //window.ShowDialog();
-
-            //IList<ArtistDto> items = ProcessFactory.GetArtistProcess().GetList();
-            //dgArtists.ItemsSource = items;
             switch(status)
             {
                 case "Artist":
@@ -49,7 +44,7 @@ namespace VRA
                     //this.btnAddW_Click();
                     break;
                 case "Customer":
-                    //this.btnAddC_Click();
+                    this.btnAddC_Click();
                     break;
                 case "Nations":
                     this.btnAddN_Click();
@@ -61,24 +56,26 @@ namespace VRA
                     MessageBox.Show("Необходимо выбрать таблицу, в которую добавляется элемент!");
                     return;
             }
+
+            Refresh_Click(sender, e);
+        }
+
+        private void btnAddC_Click()
+        {
+            AddCustomerWindow window = new AddCustomerWindow();
+            window.ShowDialog();
         }
 
         private void btnAddN_Click()
         {
             AddNationWindow window = new AddNationWindow();
             window.ShowDialog();
-
-            IList<NationDto> items = ProcessFactory.GetNationProcess().GetList();
-            dgNations.ItemsSource = items;
         }
 
         private void btnAddA_Click()
         {
             AddArtistWindow window = new AddArtistWindow();
             window.ShowDialog();
-
-            IList<ArtistDto> items = ProcessFactory.GetArtistProcess().GetList();
-            dgArtists.ItemsSource = items;
         }
 
         private void Refresh_Click(object sender, RoutedEventArgs e)
@@ -92,7 +89,7 @@ namespace VRA
                     //this.RefreshW_Click();
                     break;
                 case "Customer":
-                    //this.RefreshC_Click();
+                    this.RefreshC_Click();
                     break;
                 case "Nations":
                     this.RefreshN_Click();
@@ -104,6 +101,11 @@ namespace VRA
                     MessageBox.Show("Необходимо выбрать таблицу, которую хотите обновить!");
                     return;
             }   
+        }
+
+        private void RefreshC_Click()
+        {
+            dgCustomer.ItemsSource = ProcessFactory.GetCustomerProcess().GetList();
         }
 
         private void RefreshN_Click()
@@ -127,7 +129,7 @@ namespace VRA
                     //this.btnDeleteW_Click(sender, e);
                     break;
                 case "Customer":
-                    //this.btnDeleteC_Click(sender, e);
+                    this.btnDeleteC_Click(sender, e);
                     break;
                 case "Nations":
                     this.btnDeleteN_Click(sender, e);
@@ -139,6 +141,28 @@ namespace VRA
                     MessageBox.Show("Необходимо выбрать таблицу, из которой удаляется элемент!");
                     return;
             }
+        }
+
+        private void btnDeleteC_Click(object sender, RoutedEventArgs e)
+        {
+            CustomerDto item = dgCustomer.SelectedItem as CustomerDto;
+
+            if (item == null)
+            {
+                MessageBox.Show("Выберите запись для удаления", "Удаление");
+                return;
+            }
+
+            MessageBoxResult result = MessageBox.Show("Вы действительно хотите это удалить?", "Удаление", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+
+            if (result != MessageBoxResult.Yes)
+            {
+                return;
+            }
+
+            ProcessFactory.GetCustomerProcess().Delete(item.Id);
+
+            Refresh_Click(sender, e);
         }
 
         private void btnDeleteN_Click(object sender, RoutedEventArgs e)
@@ -196,7 +220,7 @@ namespace VRA
                     //this.btnEditW_Click(sender, e);
                     break;
                 case "Customer":
-                    //this.btnEditC_Click(sender, e);
+                    this.btnEditC_Click(sender, e);
                     break;
                 case "Nations":
                     this.btnEditN_Click(sender, e);
@@ -208,6 +232,22 @@ namespace VRA
                     MessageBox.Show("Необходимо выбрать таблицу, в которой редактируется элемент!");
                     return;
             }
+            Refresh_Click(sender, e);
+        }
+
+        private void btnEditC_Click(object sender, RoutedEventArgs e)
+        {
+            CustomerDto item = dgCustomer.SelectedItem as CustomerDto;
+
+            if(item == null)
+            {
+                MessageBox.Show("Выберите запись для редактирования", "Редактирование");
+                return;
+            }
+
+            AddCustomerWindow window = new AddCustomerWindow();
+            window.Load(item);
+            window.ShowDialog();
         }
 
         private void btnEditN_Click(object sender, RoutedEventArgs e)
@@ -223,7 +263,6 @@ namespace VRA
             AddNationWindow window = new AddNationWindow();
             window.Load(item);
             window.ShowDialog();
-            Refresh_Click(sender, e);
         }
 
         private void btnEditA_Click(object sender, RoutedEventArgs e)
@@ -239,7 +278,6 @@ namespace VRA
             AddArtistWindow window = new AddArtistWindow();
             window.Load(item);
             window.ShowDialog();
-            Refresh_Click(sender, e);
         }
 
         private void btnDatabase_Click(object sender, RoutedEventArgs e)
@@ -253,7 +291,7 @@ namespace VRA
             switch (status)
             {
                 case "Customer":
-                    //this.dgCustomer.Visibility = Visibility.Hidden;
+                    this.dgCustomer.Visibility = Visibility.Hidden;
                     break;
                 case "Work":
                     //this.dgWork.Visibility = Visibility.Hidden;
@@ -286,7 +324,7 @@ namespace VRA
             switch (status)
             {
                 case "Customer":
-                    //this.dgCustomer.Visibility = Visibility.Hidden;
+                    this.dgCustomer.Visibility = Visibility.Hidden;
                     break;
                 case "Work":
                     //this.dgWork.Visibility = Visibility.Hidden;
@@ -304,6 +342,39 @@ namespace VRA
             this.dgNations.Visibility = Visibility.Visible;
             status = "Nations";
             this.statusLabel.Content = "Работа с таблицей: Национальности";
+            this.btnAdd.Visibility = Visibility.Visible;
+            //this.btnPurchase.Visibility = Visibility.Collapsed;
+            //this.btnSale.Visibility = Visibility.Collapsed;
+            this.btnEdit.Visibility = Visibility.Visible;
+            this.btnDelete.Visibility = Visibility.Visible;
+            this.btnRefresh.Visibility = Visibility.Visible;
+            //this.btnSearch.Visibility = Visibility.Visible;
+            Refresh_Click(sender, e);
+        }
+
+        private void btnCustomers_Click(object sender, RoutedEventArgs e)
+        {
+            switch (status)
+            {
+                case "Nations":
+                    this.dgNations.Visibility = Visibility.Hidden;
+                    break;
+                case "Work":
+                    //this.dgWork.Visibility = Visibility.Hidden;
+                    break;
+                case "Trans":
+                    //this.dgTrans.Visibility = Visibility.Hidden;
+                    break;
+                case "Interests":
+                    //this.dgInterests.Visibility = Visibility.Hidden;
+                    break;
+                case "Artists":
+                    this.dgNations.Visibility = Visibility.Hidden;
+                    break;
+            }
+            this.dgCustomer.Visibility = Visibility.Visible;
+            status = "Customer";
+            this.statusLabel.Content = "Работа с таблицей: Покупатели";
             this.btnAdd.Visibility = Visibility.Visible;
             //this.btnPurchase.Visibility = Visibility.Collapsed;
             //this.btnSale.Visibility = Visibility.Collapsed;

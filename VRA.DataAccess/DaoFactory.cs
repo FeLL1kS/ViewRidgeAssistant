@@ -11,13 +11,18 @@ namespace VRA.DataAccess
         {
             return new ArtistDao();
         }
-        public static SettingsDao GetSettingsDao()
+        public static ISettingsDao GetSettingsDao()
         {
             return new SettingsDao();
         }
         public static INationDao GetNationDao()
         {
             return new NationDao();
+        }
+
+        public static ICustomerDao GetCustomerDao()
+        {
+            return new CustomerDao();
         }
     }
 }
