@@ -28,5 +28,10 @@ namespace VRA.BusinessLayer
         {
             return new CustomerProcessDb();
         }
+
+        public static ICustomerArtistINTProcess GetCustomerArtistINTProcess()
+        {
+            return new CustomerArtistINTProcessDb();
+        }
     }
 }

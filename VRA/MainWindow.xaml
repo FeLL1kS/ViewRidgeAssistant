@@ -25,6 +25,12 @@
                 <DataGridTextColumn Header="Национальность" Binding="{Binding Path=Nation.Nationality}" />
             </DataGrid.Columns>
         </DataGrid>
+        <DataGrid x:Name="dgInterests" HorizontalAlignment="Left" Width="800" SelectionChanged="dgArtists_SelectionChanged" IsSynchronizedWithCurrentItem="True" IsReadOnly="True" AutoGenerateColumns="False" Margin="0,0" Visibility="Hidden" Grid.Row="1" Grid.Column="1">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Автор" Binding="{Binding Path=ArtistID.Name}" />
+                <DataGridTextColumn Header="Клиент" Binding="{Binding  Path=CustomerID.Name}" />
+            </DataGrid.Columns>
+        </DataGrid>
         <DataGrid x:Name="dgCustomer" HorizontalAlignment="Left" Width="800" SelectionChanged="dgArtists_SelectionChanged" IsSynchronizedWithCurrentItem="True" IsReadOnly="True" AutoGenerateColumns="False" Margin="0,0" Visibility="Hidden" Grid.Row="1" Grid.Column="1">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Имя" Binding="{Binding Path=Name}" />
@@ -81,6 +87,14 @@
                 </Button.ToolTip>
                 <StackPanel>
                     <TextBlock HorizontalAlignment="Center" Margin="1" FontSize="10"><Run Text="Покупатели"/></TextBlock>
+                </StackPanel>
+            </Button>
+            <Button HorizontalAlignment="Left" x:Name="btnInterests" VerticalAlignment="Top" Height="70" Width="100" Click="btnInterests_Click">
+                <Button.ToolTip>
+                    <TextBlock><Run Text="Информации о интересах"/></TextBlock>
+                </Button.ToolTip>
+                <StackPanel>
+                    <TextBlock HorizontalAlignment="Center" Margin="1" FontSize="10"><Run Text="Интересы"/></TextBlock>
                 </StackPanel>
             </Button>
         </StackPanel>

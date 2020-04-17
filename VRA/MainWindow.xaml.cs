@@ -50,7 +50,7 @@ namespace VRA
                     this.btnAddN_Click();
                     break;
                 case "Interests":
-                    //this.btnAddI_Click();
+                    this.btnAddI_Click();
                     break;
                 default:
                     MessageBox.Show("Необходимо выбрать таблицу, в которую добавляется элемент!");
@@ -58,6 +58,12 @@ namespace VRA
             }
 
             Refresh_Click(sender, e);
+        }
+
+        private void btnAddI_Click()
+        {
+            AddCustomerArtistINT window = new AddCustomerArtistINT();
+            window.ShowDialog();
         }
 
         private void btnAddC_Click()
@@ -95,12 +101,17 @@ namespace VRA
                     this.RefreshN_Click();
                     break;
                 case "Interests":
-                    //this.RefreshI_Click();
+                    this.RefreshI_Click();
                     break;
                 default:
                     MessageBox.Show("Необходимо выбрать таблицу, которую хотите обновить!");
                     return;
             }   
+        }
+
+        private void RefreshI_Click()
+        {
+            dgInterests.ItemsSource = ProcessFactory.GetCustomerArtistINTProcess().GetList();
         }
 
         private void RefreshC_Click()
@@ -135,12 +146,34 @@ namespace VRA
                     this.btnDeleteN_Click(sender, e);
                     break;
                 case "Interests":
-                    //this.btnDeleteI_Click(sender, e);
+                    this.btnDeleteI_Click(sender, e);
                     break;
                 default:
                     MessageBox.Show("Необходимо выбрать таблицу, из которой удаляется элемент!");
                     return;
             }
+        }
+
+        private void btnDeleteI_Click(object sender, RoutedEventArgs e)
+        {
+            CustomerArtistINTDto item = dgInterests.SelectedItem as CustomerArtistINTDto;
+
+            if (item == null)
+            {
+                MessageBox.Show("Выберите запись для удаления", "Удаление");
+                return;
+            }
+
+            MessageBoxResult result = MessageBox.Show("Вы действительно хотите это удалить?", "Удаление", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+
+            if (result != MessageBoxResult.Yes)
+            {
+                return;
+            }
+
+            ProcessFactory.GetCustomerArtistINTProcess().Delete(item.ArtistID.Id, item.CustomerID.Id);
+
+            Refresh_Click(sender, e);
         }
 
         private void btnDeleteC_Click(object sender, RoutedEventArgs e)
@@ -225,9 +258,6 @@ namespace VRA
                 case "Nations":
                     this.btnEditN_Click(sender, e);
                     break;
-                case "Interests":
-                    //this.btnEditI_Click(sender, e);
-                    break;
                 default:
                     MessageBox.Show("Необходимо выбрать таблицу, в которой редактируется элемент!");
                     return;
@@ -300,7 +330,7 @@ namespace VRA
                     //this.dgTrans.Visibility = Visibility.Hidden;
                     break;
                 case "Interests":
-                    //this.dgInterests.Visibility = Visibility.Hidden;
+                    this.dgInterests.Visibility = Visibility.Hidden;
                     break;
                 case "Nations":
                     this.dgNations.Visibility = Visibility.Hidden;
@@ -333,7 +363,7 @@ namespace VRA
                     //this.dgTrans.Visibility = Visibility.Hidden;
                     break;
                 case "Interests":
-                    //this.dgInterests.Visibility = Visibility.Hidden;
+                    this.dgInterests.Visibility = Visibility.Hidden;
                     break;
                 case "Artists":
                     this.dgNations.Visibility = Visibility.Hidden;
@@ -366,10 +396,10 @@ namespace VRA
                     //this.dgTrans.Visibility = Visibility.Hidden;
                     break;
                 case "Interests":
-                    //this.dgInterests.Visibility = Visibility.Hidden;
+                    this.dgInterests.Visibility = Visibility.Hidden;
                     break;
                 case "Artists":
-                    this.dgNations.Visibility = Visibility.Hidden;
+                    this.dgArtists.Visibility = Visibility.Hidden;
                     break;
             }
             this.dgCustomer.Visibility = Visibility.Visible;
@@ -379,6 +409,38 @@ namespace VRA
             //this.btnPurchase.Visibility = Visibility.Collapsed;
             //this.btnSale.Visibility = Visibility.Collapsed;
             this.btnEdit.Visibility = Visibility.Visible;
+            this.btnDelete.Visibility = Visibility.Visible;
+            this.btnRefresh.Visibility = Visibility.Visible;
+            //this.btnSearch.Visibility = Visibility.Visible;
+            Refresh_Click(sender, e);
+        }
+        private void btnInterests_Click(object sender, RoutedEventArgs e)
+        {
+            switch (status)
+            {
+                case "Nations":
+                    this.dgNations.Visibility = Visibility.Hidden;
+                    break;
+                case "Work":
+                    //this.dgWork.Visibility = Visibility.Hidden;
+                    break;
+                case "Trans":
+                    //this.dgTrans.Visibility = Visibility.Hidden;
+                    break;
+                case "Customer":
+                    this.dgCustomer.Visibility = Visibility.Hidden;
+                    break;
+                case "Artists":
+                    this.dgArtists.Visibility = Visibility.Hidden;
+                    break;
+            }
+            this.dgInterests.Visibility = Visibility.Visible;
+            status = "Interests";
+            this.statusLabel.Content = "Работа с таблицей: Интересы";
+            this.btnAdd.Visibility = Visibility.Visible;
+            //this.btnPurchase.Visibility = Visibility.Collapsed;
+            //this.btnSale.Visibility = Visibility.Collapsed;
+            this.btnEdit.Visibility = Visibility.Hidden;
             this.btnDelete.Visibility = Visibility.Visible;
             this.btnRefresh.Visibility = Visibility.Visible;
             //this.btnSearch.Visibility = Visibility.Visible;

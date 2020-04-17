@@ -43,8 +43,10 @@
     <Compile Include="ArtistProcess.cs" />
     <Compile Include="ArtistProcessDb.cs" />
     <Compile Include="Converters\DtoConverter.cs" />
+    <Compile Include="CustomerArtistINTProcessDb.cs" />
     <Compile Include="CustomerProcessDb.cs" />
     <Compile Include="IArtistProcess.cs" />
+    <Compile Include="ICustomerArtistINTProcess.cs" />
     <Compile Include="ICustomerProcess.cs" />
     <Compile Include="INationProcess.cs" />
     <Compile Include="ISettingsProcess.cs" />

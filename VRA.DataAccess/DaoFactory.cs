@@ -24,5 +24,10 @@ namespace VRA.DataAccess
         {
             return new CustomerDao();
         }
+
+        public static ICustomerArtistINTDao GetCustomerArtistINTDao()
+        {
+            return new CustomerArtistINTDao();
+        }
     }
 }

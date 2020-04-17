@@ -121,5 +121,37 @@ namespace VRA.BusinessLayer.Converters
             }
             return customerDtos;
         }
+
+        public static CustomerArtistINTDto Convert(CustomerArtistINT customerArtistINT)
+        {
+            if (customerArtistINT == null)
+                return null;
+            CustomerArtistINTDto customerArtistINTDto = new CustomerArtistINTDto()
+            {
+                ArtistID = Convert(DaoFactory.GetArtistDao().Get(customerArtistINT.ArtistID)),
+                CustomerID = Convert(DaoFactory.GetCustomerDao().Get(customerArtistINT.CustomerID))
+            };
+            return customerArtistINTDto;
+        }
+        public static CustomerArtistINT Convert(CustomerArtistINTDto customerArtistINTDto)
+        {
+            if (customerArtistINTDto == null)
+                return null;
+            CustomerArtistINT customerArtistINT = new CustomerArtistINT()
+            {
+                ArtistID = customerArtistINTDto.ArtistID.Id,
+                CustomerID = customerArtistINTDto.CustomerID.Id
+            };
+            return customerArtistINT;
+        }
+        internal static IList<CustomerArtistINTDto> Convert(IList<CustomerArtistINT> customerArtistINTList)
+        {
+            IList<CustomerArtistINTDto> customerArtistINTDtos = new List<CustomerArtistINTDto>();
+            foreach(CustomerArtistINT customerArtistINT in customerArtistINTList)
+            {
+                customerArtistINTDtos.Add(Convert(customerArtistINT));
+            }
+            return customerArtistINTDtos;
+        }
     }
 }

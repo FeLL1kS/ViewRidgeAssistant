@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ArtistDto.cs" />
+    <Compile Include="CustomerArtistINTDto.cs" />
     <Compile Include="CustomerDto.cs" />
     <Compile Include="NationDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

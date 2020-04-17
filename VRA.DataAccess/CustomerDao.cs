@@ -53,6 +53,7 @@ namespace VRA.DataAccess
                 conn.Open();
                 using(var cmd = conn.CreateCommand())
                 {
+                    cmd.CommandText = "SELECT CustomerID, E_mail, Name, AreaCode, HouseNumber, Street, City, Region, ZipPostalCode, Country, PhoneNumber FROM Customer WHERE CustomerID = @ID";
                     cmd.Parameters.AddWithValue("@ID", id);
                     using(var dataReader = cmd.ExecuteReader())
                     {
