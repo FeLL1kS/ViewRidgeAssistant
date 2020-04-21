@@ -13,5 +13,6 @@ namespace VRA.BusinessLayer
         void Add(WorkDto work);
         void Update(WorkDto work);
         void Delete(int id);
+        IList<WorkDto> GetListInGallery();
     }
 }

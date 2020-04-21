@@ -38,5 +38,10 @@ namespace VRA.BusinessLayer
         {
             return new WorkProcessDb();
         }
+
+        public static ITransactionProcess GetTransactionProcess()
+        {
+            return new TransactionProcessDb();
+        }
     }
 }

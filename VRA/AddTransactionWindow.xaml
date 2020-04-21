@@ -1,0 +1,42 @@
+﻿<Window x:Class="VRA.AddTransactionWindow"
+ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+ Title="Добавление транзакции" ResizeMode="NoResize" SizeToContent="WidthAndHeight"
+WindowStartupLocation="CenterOwner" WindowStyle="ToolWindow" Loaded="Window_Loaded">
+
+    <Grid Margin="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+            <RowDefinition Height="15*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="150"/>
+            <ColumnDefinition Width="150"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock Text="Клиент" Grid.Row="0" Grid.Column="0"/>
+        <TextBlock Text="Работа" Grid.Row="1" Grid.Column="0"/>
+        <TextBlock Text="Копия" Grid.Row="2" Grid.Column="0"/>
+        <TextBlock Text="Дата приобретения" Grid.Row="3" Grid.Column="0"/>
+        <TextBlock Text="Цена приобретения" Grid.Row="4" Grid.Column="0"/>
+        <TextBlock Text="Дата продажи" Grid.Row="5" Grid.Column="0"/>
+        <TextBlock Text="Цена продажи" Grid.Row="6" Grid.Column="0"/>
+        <TextBlock Text="Запрашиваемая цена" Grid.Row="7" Grid.Column="0"/>
+        <ComboBox Name="cbCustomer" Grid.Row="0" Grid.Column="2" Margin="3" ItemsSource="{Binding}" DisplayMemberPath="Name"/>
+        <ComboBox Name="cbWork" Grid.Row="1" Grid.Column="2" Margin="3" ItemsSource="{Binding}" DisplayMemberPath="Title" LostFocus="cbWork_LostFocus" SelectionChanged="cbWork_SelectionChanged"/>
+        <ComboBox Name="cbCopy" Grid.Row="2" Grid.Column="2" Margin="3" ItemsSource="{Binding}" DisplayMemberPath="Copy"/>
+        <DatePicker Name="dpAcuired" Grid.Row="3" Grid.Column="2" Margin="3"/>
+        <TextBox Name="tbAcquisitionPrice" Grid.Row="4" Grid.Column="1" Margin="3"/>
+        <DatePicker Name="dpPurchase" Grid.Row="5" Grid.Column="2" Margin="3"/>
+        <TextBox Name="tbSalesPrice" Grid.Row="6" Grid.Column="1" Margin="3"/>
+        <TextBox Name="tbAskingPrice" Grid.Row="7" Grid.Column="1" Margin="3"/>
+        <Button Name="btnSave" Grid.Row="8" Grid.Column="0" Content="Сохранить" Margin="3" Click="btnSave_Click" />
+        <Button Name="btnCancel" Grid.Row="8" Grid.Column="1" Content="Закрыть" Margin="3" Click="btnCancel_Click" />
+    </Grid>
+</Window>

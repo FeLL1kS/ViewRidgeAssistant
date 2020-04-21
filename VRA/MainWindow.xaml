@@ -17,6 +17,7 @@
             <ColumnDefinition Width="100*"/>
             <ColumnDefinition Width="100"/>
         </Grid.ColumnDefinitions>
+        
         <DataGrid x:Name="dgArtists" HorizontalAlignment="Left" Width="800" SelectionChanged="dgArtists_SelectionChanged" IsSynchronizedWithCurrentItem="True" IsReadOnly="True" AutoGenerateColumns="False" Margin="0,0" Visibility="Hidden" Grid.Row="1" Grid.Column="1">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Имя" Binding="{Binding Path=Name}" />
@@ -25,6 +26,7 @@
                 <DataGridTextColumn Header="Национальность" Binding="{Binding Path=Nation.Nationality}" />
             </DataGrid.Columns>
         </DataGrid>
+        
         <DataGrid x:Name="dgInterests" HorizontalAlignment="Left" Width="800" SelectionChanged="dgArtists_SelectionChanged" IsSynchronizedWithCurrentItem="True" IsReadOnly="True" AutoGenerateColumns="False" Margin="0,0" Visibility="Hidden" Grid.Row="1" Grid.Column="1">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Автор" Binding="{Binding Path=ArtistID.Name}" />
@@ -45,15 +47,24 @@
                 <DataGridTextColumn Header="Номер телефона" Binding="{Binding Path=PhoneNumber}" />
             </DataGrid.Columns>
         </DataGrid>
+
         <DataGrid x:Name="dgNations" HorizontalAlignment="Left" Width="800" SelectionChanged="dgArtists_SelectionChanged" IsSynchronizedWithCurrentItem="True" IsReadOnly="True" AutoGenerateColumns="False" Margin="0,0" Visibility="Hidden" Grid.Row="1" Grid.Column="1">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Национальность" Binding="{Binding Path=Nationality}" />
             </DataGrid.Columns>
         </DataGrid>
 
+        <DataGrid x:Name="dgWork" Grid.Row="1" Grid.Column="1" IsReadOnly="True" AutoGenerateColumns="False" Visibility="Hidden">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Название" Binding="{Binding Path=Title}" />
+                <DataGridTextColumn Header="Автор" Binding="{Binding Path=Artist.Name}" />
+                <DataGridTextColumn Header="Копия" Binding="{Binding Path=Copy}" />
+                <DataGridTextColumn Header="Описание" Binding="{Binding Path=Description}" />
+            </DataGrid.Columns>
+        </DataGrid>
         <DataGrid x:Name="dgTrans" Grid.Row="1" Grid.Column="1" IsReadOnly="True" AutoGenerateColumns="False" Visibility="Hidden">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Номер транзакции" Binding="{Binding Path=TransactionID}" />
+                <DataGridTextColumn Header="Номер транзакции" Binding="{Binding Path=Id}" />
                 <DataGridTextColumn Header="Автор" Binding="{Binding Path=Work.Artist.Name}" />
                 <DataGridTextColumn Header="Работа" Binding="{Binding Path=Work.Title}" />
                 <DataGridTextColumn Header="Дата приобретения" Binding="{Binding Path=DateAcquired, StringFormat=\{0:dd.MM.yyyy\}}" />
@@ -111,8 +122,40 @@
                     <TextBlock HorizontalAlignment="Center" Margin="1" FontSize="10"><Run Text="Интересы"/></TextBlock>
                 </StackPanel>
             </Button>
+            <Button HorizontalAlignment="Left" x:Name="btnWorks" VerticalAlignment="Top" Height="70" Width="100" Click="btnWorks_Click">
+                <Button.ToolTip>
+                    <TextBlock><Run Text="Информации о картинах"/></TextBlock>
+                </Button.ToolTip>
+                <StackPanel>
+                    <TextBlock HorizontalAlignment="Center" Margin="1" FontSize="10"><Run Text="Картины"/></TextBlock>
+                </StackPanel>
+            </Button>
+            <Button HorizontalAlignment="Left" x:Name="btnTrans" VerticalAlignment="Top" Height="70" Width="100" Click="btnTrans_Click">
+                <Button.ToolTip>
+                    <TextBlock><Run Text="Информации о транзакциях"/></TextBlock>
+                </Button.ToolTip>
+                <StackPanel>
+                    <TextBlock HorizontalAlignment="Center" Margin="1" FontSize="10"><Run Text="Транзакции"/></TextBlock>
+                </StackPanel>
+            </Button>
         </StackPanel>
-        <StackPanel HorizontalAlignment="Right" Margin="0,0" VerticalAlignment="Top" Width="100" Height="291" Grid.Row="1" Grid.Column="2">
+        <StackPanel HorizontalAlignment="Right" Margin="0,0" VerticalAlignment="Top" Width="100" Grid.Row="1" Grid.Column="2">
+            <Button x:Name="btnPurchase" HorizontalAlignment="Right" VerticalAlignment="Top" Width="100" Height="70" Click="btnPurchase_Click">
+                <Button.ToolTip>
+                    <TextBlock><Run Text="Обновить записи в выбранной таблице"/></TextBlock>
+                </Button.ToolTip>
+                <StackPanel>
+                    <TextBlock HorizontalAlignment="Center" Margin="1" FontSize="10"><Run Text="Купить"/></TextBlock>
+                </StackPanel>
+            </Button>
+            <Button x:Name="btnSale" HorizontalAlignment="Right" VerticalAlignment="Top" Width="100" Height="70" Click="btnSale_Click">
+                <Button.ToolTip>
+                    <TextBlock><Run Text="Обновить записи в выбранной таблице"/></TextBlock>
+                </Button.ToolTip>
+                <StackPanel>
+                    <TextBlock HorizontalAlignment="Center" Margin="1" FontSize="10"><Run Text="Продать"/></TextBlock>
+                </StackPanel>
+            </Button>
             <Button x:Name="btnAdd" HorizontalAlignment="Right" VerticalAlignment="Top" Width="100" Height="70" Click="btnAdd_Click">
                 <Button.ToolTip>
                     <TextBlock><Run Text="Добавить запись в выбранную таблицу"/></TextBlock>

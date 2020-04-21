@@ -41,7 +41,7 @@ namespace VRA
                     this.btnAddA_Click();
                     break;
                 case "Work":
-                    //this.btnAddW_Click();
+                    this.btnAddW_Click();
                     break;
                 case "Customer":
                     this.btnAddC_Click();
@@ -58,6 +58,12 @@ namespace VRA
             }
 
             Refresh_Click(sender, e);
+        }
+
+        private void btnAddW_Click()
+        {
+            AddWorkWindow window = new AddWorkWindow();
+            window.ShowDialog();
         }
 
         private void btnAddI_Click()
@@ -84,6 +90,35 @@ namespace VRA
             window.ShowDialog();
         }
 
+        private void btnPurchase_Click(object sender, RoutedEventArgs e)
+        {
+            switch (status)
+            {
+                case "Trans":
+            AddTransactionWindow window = new AddTransactionWindow
+            {
+                status = "purchase"
+            };
+                    window.ShowDialog();
+                    RefreshT_Click();
+                    break;
+                default: MessageBox.Show("Необходимо выбрать таблицу, Транзакции!"); return;
+            }
+        }
+        private void btnSale_Click(object sender, RoutedEventArgs e)
+        {
+            switch (status)
+            {
+                case "Trans":
+                    AddTransactionWindow window = new AddTransactionWindow { status = "sale"};
+                    window.ShowDialog();
+                    RefreshT_Click();
+                    break;
+                default: MessageBox.Show("Необходимо выбрать таблицу, Транзакции!"); return;
+            }
+        }
+
+
         private void Refresh_Click(object sender, RoutedEventArgs e)
         {
             switch (status)
@@ -92,7 +127,7 @@ namespace VRA
                     this.RefreshA_Click();
                     break;
                 case "Work":
-                    //this.RefreshW_Click();
+                    this.RefreshW_Click();
                     break;
                 case "Customer":
                     this.RefreshC_Click();
@@ -103,10 +138,23 @@ namespace VRA
                 case "Interests":
                     this.RefreshI_Click();
                     break;
+                case "Trans":
+                    this.RefreshT_Click();
+                    break;
                 default:
                     MessageBox.Show("Необходимо выбрать таблицу, которую хотите обновить!");
                     return;
             }   
+        }
+
+        private void RefreshT_Click()
+        {
+            dgTrans.ItemsSource = ProcessFactory.GetTransactionProcess().GetList();
+        }
+
+        private void RefreshW_Click()
+        {
+            dgWork.ItemsSource = ProcessFactory.GetWorkProcess().GetList();
         }
 
         private void RefreshI_Click()
@@ -137,7 +185,7 @@ namespace VRA
                     this.btnDeleteA_Click(sender, e);
                     break;
                 case "Work":
-                    //this.btnDeleteW_Click(sender, e);
+                    this.btnDeleteW_Click(sender, e);
                     break;
                 case "Customer":
                     this.btnDeleteC_Click(sender, e);
@@ -148,10 +196,57 @@ namespace VRA
                 case "Interests":
                     this.btnDeleteI_Click(sender, e);
                     break;
+                case "Trans":
+                    this.btnDeleteT_Click(sender, e);
+                    break;
                 default:
                     MessageBox.Show("Необходимо выбрать таблицу, из которой удаляется элемент!");
                     return;
             }
+        }
+
+        private void btnDeleteT_Click(object sender, RoutedEventArgs e)
+        {
+            TransactionDto item = dgTrans.SelectedItem as TransactionDto;
+
+            if (item == null)
+            {
+                MessageBox.Show("Выберите запись для удаления", "Удаление");
+                return;
+            }
+
+            MessageBoxResult result = MessageBox.Show("Вы действительно хотите это удалить?", "Удаление", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+
+            if (result != MessageBoxResult.Yes)
+            {
+                return;
+            }
+
+            ProcessFactory.GetTransactionProcess().Delete(item.Id);
+
+            Refresh_Click(sender, e);
+        }
+
+        private void btnDeleteW_Click(object sender, RoutedEventArgs e)
+        {
+            WorkDto item = dgWork.SelectedItem as WorkDto;
+
+            if (item == null)
+            {
+                MessageBox.Show("Выберите запись для удаления", "Удаление");
+                return;
+            }
+
+            MessageBoxResult result = MessageBox.Show("Вы действительно хотите это удалить?", "Удаление", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+
+            if (result != MessageBoxResult.Yes)
+            {
+                return;
+            }
+
+            ProcessFactory.GetWorkProcess().Delete(item.Id);
+
+            Refresh_Click(sender, e);
         }
 
         private void btnDeleteI_Click(object sender, RoutedEventArgs e)
@@ -250,7 +345,7 @@ namespace VRA
                     this.btnEditA_Click(sender, e);
                     break;
                 case "Work":
-                    //this.btnEditW_Click(sender, e);
+                    this.btnEditW_Click(sender, e);
                     break;
                 case "Customer":
                     this.btnEditC_Click(sender, e);
@@ -258,11 +353,44 @@ namespace VRA
                 case "Nations":
                     this.btnEditN_Click(sender, e);
                     break;
+                case "Trans":
+                    this.btnEditT_Click(sender, e);
+                    break;
                 default:
                     MessageBox.Show("Необходимо выбрать таблицу, в которой редактируется элемент!");
                     return;
             }
             Refresh_Click(sender, e);
+        }
+
+        private void btnEditT_Click(object sender, RoutedEventArgs e)
+        {
+            TransactionDto item = dgTrans.SelectedItem as TransactionDto;
+
+            if (item == null)
+            {
+                MessageBox.Show("Выберите запись для редактирования", "Редактирование");
+                return;
+            }
+
+            AddTransactionWindow window = new AddTransactionWindow();
+            window.Load(item);
+            window.ShowDialog();
+        }
+
+        private void btnEditW_Click(object sender, RoutedEventArgs e)
+        {
+            WorkDto item = dgWork.SelectedItem as WorkDto;
+
+            if(item == null)
+            {
+                MessageBox.Show("Выберите запись для редактирования", "Редактирование");
+                return;
+            }
+
+            AddWorkWindow window = new AddWorkWindow();
+            window.Load(item);
+            window.ShowDialog();
         }
 
         private void btnEditC_Click(object sender, RoutedEventArgs e)
@@ -324,10 +452,10 @@ namespace VRA
                     this.dgCustomer.Visibility = Visibility.Hidden;
                     break;
                 case "Work":
-                    //this.dgWork.Visibility = Visibility.Hidden;
+                    this.dgWork.Visibility = Visibility.Hidden;
                     break;
                 case "Trans":
-                    //this.dgTrans.Visibility = Visibility.Hidden;
+                    this.dgTrans.Visibility = Visibility.Hidden;
                     break;
                 case "Interests":
                     this.dgInterests.Visibility = Visibility.Hidden;
@@ -340,8 +468,8 @@ namespace VRA
             status = "Artist";
             this.statusLabel.Content = "Работа с таблицей: Художники";
             this.btnAdd.Visibility = Visibility.Visible;
-            //this.btnPurchase.Visibility = Visibility.Collapsed;
-            //this.btnSale.Visibility = Visibility.Collapsed;
+            this.btnPurchase.Visibility = Visibility.Collapsed;
+            this.btnSale.Visibility = Visibility.Collapsed;
             this.btnEdit.Visibility = Visibility.Visible;
             this.btnDelete.Visibility = Visibility.Visible;
             this.btnRefresh.Visibility = Visibility.Visible;
@@ -357,10 +485,10 @@ namespace VRA
                     this.dgCustomer.Visibility = Visibility.Hidden;
                     break;
                 case "Work":
-                    //this.dgWork.Visibility = Visibility.Hidden;
+                    this.dgWork.Visibility = Visibility.Hidden;
                     break;
                 case "Trans":
-                    //this.dgTrans.Visibility = Visibility.Hidden;
+                    this.dgTrans.Visibility = Visibility.Hidden;
                     break;
                 case "Interests":
                     this.dgInterests.Visibility = Visibility.Hidden;
@@ -373,8 +501,8 @@ namespace VRA
             status = "Nations";
             this.statusLabel.Content = "Работа с таблицей: Национальности";
             this.btnAdd.Visibility = Visibility.Visible;
-            //this.btnPurchase.Visibility = Visibility.Collapsed;
-            //this.btnSale.Visibility = Visibility.Collapsed;
+            this.btnPurchase.Visibility = Visibility.Collapsed;
+            this.btnSale.Visibility = Visibility.Collapsed;
             this.btnEdit.Visibility = Visibility.Visible;
             this.btnDelete.Visibility = Visibility.Visible;
             this.btnRefresh.Visibility = Visibility.Visible;
@@ -390,10 +518,10 @@ namespace VRA
                     this.dgNations.Visibility = Visibility.Hidden;
                     break;
                 case "Work":
-                    //this.dgWork.Visibility = Visibility.Hidden;
+                    this.dgWork.Visibility = Visibility.Hidden;
                     break;
                 case "Trans":
-                    //this.dgTrans.Visibility = Visibility.Hidden;
+                    this.dgTrans.Visibility = Visibility.Hidden;
                     break;
                 case "Interests":
                     this.dgInterests.Visibility = Visibility.Hidden;
@@ -406,8 +534,8 @@ namespace VRA
             status = "Customer";
             this.statusLabel.Content = "Работа с таблицей: Покупатели";
             this.btnAdd.Visibility = Visibility.Visible;
-            //this.btnPurchase.Visibility = Visibility.Collapsed;
-            //this.btnSale.Visibility = Visibility.Collapsed;
+            this.btnPurchase.Visibility = Visibility.Collapsed;
+            this.btnSale.Visibility = Visibility.Collapsed;
             this.btnEdit.Visibility = Visibility.Visible;
             this.btnDelete.Visibility = Visibility.Visible;
             this.btnRefresh.Visibility = Visibility.Visible;
@@ -422,10 +550,10 @@ namespace VRA
                     this.dgNations.Visibility = Visibility.Hidden;
                     break;
                 case "Work":
-                    //this.dgWork.Visibility = Visibility.Hidden;
+                    this.dgWork.Visibility = Visibility.Hidden;
                     break;
                 case "Trans":
-                    //this.dgTrans.Visibility = Visibility.Hidden;
+                    this.dgTrans.Visibility = Visibility.Hidden;
                     break;
                 case "Customer":
                     this.dgCustomer.Visibility = Visibility.Hidden;
@@ -438,9 +566,75 @@ namespace VRA
             status = "Interests";
             this.statusLabel.Content = "Работа с таблицей: Интересы";
             this.btnAdd.Visibility = Visibility.Visible;
-            //this.btnPurchase.Visibility = Visibility.Collapsed;
-            //this.btnSale.Visibility = Visibility.Collapsed;
-            this.btnEdit.Visibility = Visibility.Hidden;
+            this.btnPurchase.Visibility = Visibility.Collapsed;
+            this.btnSale.Visibility = Visibility.Collapsed;
+            this.btnEdit.Visibility = Visibility.Collapsed;
+            this.btnDelete.Visibility = Visibility.Visible;
+            this.btnRefresh.Visibility = Visibility.Visible;
+            //this.btnSearch.Visibility = Visibility.Visible;
+            Refresh_Click(sender, e);
+        }
+
+        private void btnTrans_Click(object sender, RoutedEventArgs e)
+        {
+            switch (status)
+            {
+                case "Nations":
+                    this.dgNations.Visibility = Visibility.Hidden;
+                    break;
+                case "Work":
+                    this.dgWork.Visibility = Visibility.Hidden;
+                    break;
+                case "Interests":
+                    this.dgInterests.Visibility = Visibility.Hidden;
+                    break;
+                case "Customer":
+                    this.dgCustomer.Visibility = Visibility.Hidden;
+                    break;
+                case "Artists":
+                    this.dgArtists.Visibility = Visibility.Hidden;
+                    break;
+            }
+            this.dgTrans.Visibility = Visibility.Visible;
+            status = "Trans";
+            this.statusLabel.Content = "Работа с таблицей: Транзакции";
+            this.btnAdd.Visibility = Visibility.Collapsed;
+            this.btnPurchase.Visibility = Visibility.Visible;
+            this.btnSale.Visibility = Visibility.Visible;
+            this.btnEdit.Visibility = Visibility.Visible;
+            this.btnDelete.Visibility = Visibility.Visible;
+            this.btnRefresh.Visibility = Visibility.Visible;
+            //this.btnSearch.Visibility = Visibility.Visible;
+            Refresh_Click(sender, e);
+        }
+
+        private void btnWorks_Click(object sender, RoutedEventArgs e)
+        {
+            switch (status)
+            {
+                case "Nations":
+                    this.dgNations.Visibility = Visibility.Hidden;
+                    break;
+                case "Interests":
+                    this.dgInterests.Visibility = Visibility.Hidden;
+                    break;
+                case "Trans":
+                    this.dgTrans.Visibility = Visibility.Hidden;
+                    break;
+                case "Customer":
+                    this.dgCustomer.Visibility = Visibility.Hidden;
+                    break;
+                case "Artists":
+                    this.dgArtists.Visibility = Visibility.Hidden;
+                    break;
+            }
+            this.dgWork.Visibility = Visibility.Visible;
+            status = "Work";
+            this.statusLabel.Content = "Работа с таблицей: Картины";
+            this.btnAdd.Visibility = Visibility.Visible;
+            this.btnPurchase.Visibility = Visibility.Collapsed;
+            this.btnSale.Visibility = Visibility.Collapsed;
+            this.btnEdit.Visibility = Visibility.Visible;
             this.btnDelete.Visibility = Visibility.Visible;
             this.btnRefresh.Visibility = Visibility.Visible;
             //this.btnSearch.Visibility = Visibility.Visible;

@@ -5,20 +5,21 @@ using System.Data.SqlClient;
 
 namespace VRA.DataAccess
 {
-    class WorkDao : BaseDao, IWorkDao
+    class ArtistDao : BaseDao, IArtistDao
     {
-        public void Add(Work work)
+        public void Add(Artist artist)
         {
             using (var conn = GetConnection())
             {
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = "INSERT INTO Work(Title, Copy, Description, ArtistID) VALUES(@Title, @Copy, @Description, @ArtistID)";
-                    cmd.Parameters.AddWithValue("@Title", work.Title);
-                    cmd.Parameters.AddWithValue("@Copy", work.Copy);
-                    cmd.Parameters.AddWithValue("@Description", work.Description);
-                    cmd.Parameters.AddWithValue("@ArtistID", work.ArtistID);
+                    cmd.CommandText = "INSERT INTO ARTIST(Name, BirthYear, DeceaseYear, NatID) VALUES(@Name, @BirthYear, @DeceaseYear, @Nationality)";
+                    cmd.Parameters.AddWithValue("@Name", artist.Name);
+                    cmd.Parameters.AddWithValue("@BirthYear", artist.BirthYear);
+                    cmd.Parameters.AddWithValue("@Nationality", artist.NationId);
+                    object decease = artist.DeceaseYear.HasValue ? (object)artist.DeceaseYear.Value : DBNull.Value;
+                    cmd.Parameters.AddWithValue("@DeceaseYear", decease);
                     cmd.ExecuteNonQuery();
                 }
             }
@@ -31,78 +32,94 @@ namespace VRA.DataAccess
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = "DELETE FROM Work WHERE WorkID = @ID";
+                    cmd.CommandText = "DELETE FROM ARTIST WHERE ArtistID = @ID";
                     cmd.Parameters.AddWithValue("@ID", id);
                     cmd.ExecuteNonQuery();
                 }
             }
         }
 
-        public Work Get(int id)
+        public Artist Get(int id)
         {
             using (var conn = GetConnection())
             {
+                //Открываем соединение
                 conn.Open();
+                //Создаем sql команду
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = "SELECT WorkID, ArtistID, Title, Copy, Description FROM Work WHERE ArtistID = @ID";
-                    cmd.Parameters.AddWithValue("@ID", id);
+                    //Задаём текст команды
+                    cmd.CommandText = "SELECT ArtistID, Name, BirthYear, DeceaseYear, NatID FROM ARTIST WHERE ArtistID = @id";
+                    //Добавляем значение параметра
+                    cmd.Parameters.AddWithValue("@id", id);
+                    //Открываем SqlDataReader для чтения полученных в результате
+                    //выполнения запроса данных
                     using (var dataReader = cmd.ExecuteReader())
                     {
-                        return dataReader.Read() ? LoadWork(dataReader) : null;
+                        //Если есть запись, то работаем с ней
+                        return dataReader.Read() ? LoadArtist(dataReader) : null;
                     }
                 }
             }
         }
 
-        public IList<Work> GetAll()
+        public IList<Artist> GetAll()
         {
-            IList<Work> works = new List<Work>();
+            IList<Artist> artists = new List<Artist>();
             using (var conn = GetConnection())
             {
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = "SELECT WorkID, ArtistID, Title, Copy, Description FROM Work";
+                    cmd.CommandText = "SELECT ArtistID, Name, BirthYear, DeceaseYear, NatID FROM ARTIST";
                     using (var dataReader = cmd.ExecuteReader())
                     {
                         while (dataReader.Read())
                         {
-                            works.Add(LoadWork(dataReader));
+                            artists.Add(LoadArtist(dataReader));
                         }
                     }
                 }
             }
-            return works;
+            return artists;
         }
 
-        public void Update(Work work)
+        public void Update(Artist artist)
         {
             using (var conn = GetConnection())
             {
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = "UPDATE Work SET ArtistID = @ArtistID, Title = @Title, Copy = @Copy, Description = @Description WHERE WorkID = @ID";
-                    cmd.Parameters.AddWithValue("@Title", work.Title);
-                    cmd.Parameters.AddWithValue("@Copy", work.Copy);
-                    cmd.Parameters.AddWithValue("@Description", work.Description);
-                    cmd.Parameters.AddWithValue("@ArtistID", work.ArtistID);
+                    cmd.CommandText = "UPDATE ARTIST SET Name = @Name, BirthYear = @BirthYear, DeceaseYear = @DeceaseYear, NatID = @Nationality WHERE ArtistID = @ID";
+                    cmd.Parameters.AddWithValue("@Name", artist.Name);
+                    cmd.Parameters.AddWithValue("@BirthYear", artist.BirthYear);
+                    cmd.Parameters.AddWithValue("@ID", artist.ArtistId);
+                    cmd.Parameters.AddWithValue("@Nationality", artist.NationId);
+                    object decease = artist.DeceaseYear.HasValue ? (object)artist.DeceaseYear.Value : DBNull.Value;
+                    cmd.Parameters.AddWithValue("@DeceaseYear", decease);
                     cmd.ExecuteNonQuery();
                 }
             }
         }
-        private static Work LoadWork(SqlDataReader dataReader)
+
+        private static Artist LoadArtist(SqlDataReader reader)
         {
-            Work work = new Work()
-            {
-                WorkID = dataReader.GetInt32(dataReader.GetOrdinal("WorkID")),
-                ArtistID = dataReader.GetInt32(dataReader.GetOrdinal("ArtistID")),
-                Title = dataReader.GetString(dataReader.GetOrdinal("Title")),
-                Copy = dataReader.GetString(dataReader.GetOrdinal("Copy")),
-                Description = dataReader.GetString(dataReader.GetOrdinal("Description"))
-            };
-            return work;
+            //Создаём пустой объект
+            Artist artist = new Artist();
+            //Заполняем поля объекта в соответствии с названиями
+            //полей результирующего набора данных
+            artist.ArtistId = reader.GetInt32(reader.GetOrdinal("ArtistID"));
+            artist.BirthYear = Convert.ToInt32(reader["BirthYear"]);
+            //Помните, что у нас поле DeceaseYear может иметь значение NULL?
+            //Следующие 3 строки корректно обрабатывают этот случай
+            object decease = reader["DeceaseYear"];
+            if (decease != DBNull.Value)
+                artist.DeceaseYear = Convert.ToInt32(decease);
+            artist.Name = reader.GetString(reader.GetOrdinal("Name"));
+            int pos = reader.GetOrdinal("NatID");
+            artist.NationId = reader[pos] == DBNull.Value ? -1 : reader.GetInt32(pos);
+            return artist;
         }
     }
 }

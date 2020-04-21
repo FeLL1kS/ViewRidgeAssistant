@@ -189,5 +189,58 @@ namespace VRA.BusinessLayer.Converters
             }
             return workDtos;
         }
+        public static TransactionDto Convert(Transaction transaction)
+        {
+            if (transaction == null)
+                return null;
+            TransactionDto transactionDto = new TransactionDto()
+            {
+                Id = transaction.TransID,
+                Work = ProcessFactory.GetWorkProcess().Get(transaction.WorkID),
+                AcquisitionPrice = transaction.AcquisitionPrice,
+                AskingPrice = transaction.AskingPrice,
+                SalesPrice = transaction.SalesPrice,
+                DateAcquired = transaction.DateAcquired,
+                PurchaseDate = transaction.PurchaseDate
+            };
+            if (transaction.CustomerID != null)
+                transactionDto.Customer = ProcessFactory.GetCustomerProcess().Get((int)transaction.CustomerID);
+            else
+                transactionDto.Customer = null;
+            return transactionDto;
+        }
+        public static Transaction Convert(TransactionDto transactionDto)
+        {
+            if (transactionDto == null)
+                return null;
+            Transaction transaction = new Transaction()
+            {
+                WorkID = transactionDto.Work.Id,
+                TransID = transactionDto.Id,
+                DateAcquired = transactionDto.DateAcquired,
+                PurchaseDate = transactionDto.PurchaseDate,
+                AcquisitionPrice = transactionDto.AcquisitionPrice,
+                AskingPrice = transactionDto.AskingPrice,
+                SalesPrice = transactionDto.SalesPrice
+            };
+            if(transactionDto.Customer != null)
+            {
+                transaction.CustomerID = transactionDto.Customer.Id;
+            }
+            else
+            {
+                transaction.CustomerID = null;
+            }
+            return transaction;
+        }
+        internal static IList<TransactionDto> Convert(IList<Transaction> transactions)
+        {
+            IList<TransactionDto> transactionDtos = new List<TransactionDto>();
+            foreach(Transaction trans in transactions)
+            {
+                transactionDtos.Add(Convert(trans));
+            }
+            return transactionDtos;
+        }
     }
 }

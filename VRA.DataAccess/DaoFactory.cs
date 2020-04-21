@@ -34,5 +34,10 @@ namespace VRA.DataAccess
         {
             return new WorkDao();
         }
+
+        public static ITransactionDao GetTransactionDao()
+        {
+            return new TransactionDao();
+        }
     }
 }

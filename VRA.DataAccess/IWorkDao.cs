@@ -13,5 +13,6 @@ namespace VRA.DataAccess
         void Add(Work work);
         void Update(Work work);
         void Delete(int id);
+        IEnumerable<Work> GetInGallery();
     }
 }

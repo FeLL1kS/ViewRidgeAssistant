@@ -41,8 +41,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="WorkDao.cs" />
     <Compile Include="ArtistDao.cs" />
+    <Compile Include="Entities\Transaction.cs" />
+    <Compile Include="ITransactionDao.cs" />
+    <Compile Include="TransactionDao.cs" />
+    <Compile Include="WorkDao.cs" />
     <Compile Include="BaseDao.cs" />
     <Compile Include="CustomerArtistINTDao.cs" />
     <Compile Include="CustomerDao.cs" />

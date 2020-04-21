@@ -44,6 +44,8 @@
     <Compile Include="ArtistProcessDb.cs" />
     <Compile Include="Converters\DtoConverter.cs" />
     <Compile Include="CustomerArtistINTProcessDb.cs" />
+    <Compile Include="ITransactionProcess.cs" />
+    <Compile Include="TransactionProcessDb.cs" />
     <Compile Include="WorkProcessDb.cs" />
     <Compile Include="CustomerProcessDb.cs" />
     <Compile Include="IArtistProcess.cs" />
