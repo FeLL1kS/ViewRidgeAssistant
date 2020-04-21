@@ -33,5 +33,10 @@ namespace VRA.BusinessLayer
         {
             return new CustomerArtistINTProcessDb();
         }
+
+        public static IWorkProcess GetWorkProcess()
+        {
+            return new WorkProcessDb();
+        }
     }
 }

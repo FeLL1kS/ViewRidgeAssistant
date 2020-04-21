@@ -50,6 +50,20 @@
                 <DataGridTextColumn Header="Национальность" Binding="{Binding Path=Nationality}" />
             </DataGrid.Columns>
         </DataGrid>
+
+        <DataGrid x:Name="dgTrans" Grid.Row="1" Grid.Column="1" IsReadOnly="True" AutoGenerateColumns="False" Visibility="Hidden">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Номер транзакции" Binding="{Binding Path=TransactionID}" />
+                <DataGridTextColumn Header="Автор" Binding="{Binding Path=Work.Artist.Name}" />
+                <DataGridTextColumn Header="Работа" Binding="{Binding Path=Work.Title}" />
+                <DataGridTextColumn Header="Дата приобретения" Binding="{Binding Path=DateAcquired, StringFormat=\{0:dd.MM.yyyy\}}" />
+                <DataGridTextColumn Header="Цена приобретения" Binding="{Binding Path=AcquisitionPrice}" />
+                <DataGridTextColumn Header="Клиент" Binding="{Binding Path=Customer.Name}" />
+                <DataGridTextColumn Header="Дата продажи" Binding="{Binding Path=PurchaseDate, StringFormat=\{0:dd.MM.yyyy\}}" />
+                <DataGridTextColumn Header="Цена продажи" Binding="{Binding Path=SalesPrice}"/>
+                <DataGridTextColumn Header="Запрашиваемая цена" Binding="{Binding Path=AskingPrice}" />
+            </DataGrid.Columns>
+        </DataGrid>
         <Menu Height="20" HorizontalAlignment="Stretch" Name="mainMenu" VerticalAlignment="Top" Margin="0,0" Grid.Row="0" Grid.ColumnSpan="3">
             <MenuItem Name="DataBase" Header="База данных">
                 <MenuItem Name="dataBaseS" Header="Настроить соединение с имеющейся БД" Click="btnDatabase_Click"/>

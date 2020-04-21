@@ -29,5 +29,10 @@ namespace VRA.DataAccess
         {
             return new CustomerArtistINTDao();
         }
+
+        public static IWorkDao GetWorkDao()
+        {
+            return new WorkDao();
+        }
     }
 }

@@ -121,7 +121,6 @@ namespace VRA.BusinessLayer.Converters
             }
             return customerDtos;
         }
-
         public static CustomerArtistINTDto Convert(CustomerArtistINT customerArtistINT)
         {
             if (customerArtistINT == null)
@@ -152,6 +151,43 @@ namespace VRA.BusinessLayer.Converters
                 customerArtistINTDtos.Add(Convert(customerArtistINT));
             }
             return customerArtistINTDtos;
+        }
+        public static WorkDto Convert(Work work)
+        {
+            if (work == null)
+                return null;
+            WorkDto workDto = new WorkDto()
+            {
+                Id = work.WorkID,
+                Title = work.Title,
+                Copy = work.Copy,
+                Description = work.Description,
+                Artist = Convert(DaoFactory.GetArtistDao().Get(work.ArtistID))
+            };
+            return workDto;
+        }
+        public static Work Convert(WorkDto workDto)
+        {
+            if (workDto == null)
+                return null;
+            Work work = new Work()
+            {
+                WorkID = workDto.Id,
+                Title = workDto.Title,
+                Copy = workDto.Copy,
+                Description = workDto.Description,
+                ArtistID = workDto.Artist.Id
+            };
+            return work;
+        }
+        internal static IList<WorkDto> Convert(IList<Work> works)
+        {
+            IList<WorkDto> workDtos = new List<WorkDto>();
+            foreach(Work work in works)
+            {
+                workDtos.Add(Convert(work));
+            }
+            return workDtos;
         }
     }
 }

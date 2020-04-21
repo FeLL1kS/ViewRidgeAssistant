@@ -62,6 +62,9 @@
     <Compile Include="AddNationWindow.xaml.cs">
       <DependentUpon>AddNationWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AddWorkWindow.xaml.cs">
+      <DependentUpon>AddWorkWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SettingsWindow.xaml.cs">
       <DependentUpon>SettingsWindow.xaml</DependentUpon>
     </Compile>
@@ -78,6 +81,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="AddNationWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AddWorkWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

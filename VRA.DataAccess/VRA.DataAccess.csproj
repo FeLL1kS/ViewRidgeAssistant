@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="WorkDao.cs" />
     <Compile Include="ArtistDao.cs" />
     <Compile Include="BaseDao.cs" />
     <Compile Include="CustomerArtistINTDao.cs" />
@@ -50,8 +51,10 @@
     <Compile Include="Entities\Customer.cs" />
     <Compile Include="Entities\CustomerArtistINT.cs" />
     <Compile Include="Entities\Nation.cs" />
+    <Compile Include="Entities\Work.cs" />
     <Compile Include="IArtistDao.cs" />
     <Compile Include="ICustomerArtistINTDao.cs" />
+    <Compile Include="IWorkDao.cs" />
     <Compile Include="ICustomerDao.cs" />
     <Compile Include="INationDao.cs" />
     <Compile Include="ISettingsDao.cs" />
