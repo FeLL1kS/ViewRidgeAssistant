@@ -40,7 +40,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ArtistProcess.cs" />
     <Compile Include="ArtistProcessDb.cs" />
     <Compile Include="Converters\DtoConverter.cs" />
     <Compile Include="CustomerArtistINTProcessDb.cs" />

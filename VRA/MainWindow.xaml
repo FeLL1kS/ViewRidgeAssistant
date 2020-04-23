@@ -17,7 +17,7 @@
             <ColumnDefinition Width="100*"/>
             <ColumnDefinition Width="100"/>
         </Grid.ColumnDefinitions>
-        
+
         <DataGrid x:Name="dgArtists" HorizontalAlignment="Left" Width="800" SelectionChanged="dgArtists_SelectionChanged" IsSynchronizedWithCurrentItem="True" IsReadOnly="True" AutoGenerateColumns="False" Margin="0,0" Visibility="Hidden" Grid.Row="1" Grid.Column="1">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Имя" Binding="{Binding Path=Name}" />
@@ -26,7 +26,7 @@
                 <DataGridTextColumn Header="Национальность" Binding="{Binding Path=Nation.Nationality}" />
             </DataGrid.Columns>
         </DataGrid>
-        
+
         <DataGrid x:Name="dgInterests" HorizontalAlignment="Left" Width="800" SelectionChanged="dgArtists_SelectionChanged" IsSynchronizedWithCurrentItem="True" IsReadOnly="True" AutoGenerateColumns="False" Margin="0,0" Visibility="Hidden" Grid.Row="1" Grid.Column="1">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Автор" Binding="{Binding Path=ArtistID.Name}" />
@@ -137,6 +137,14 @@
                 <StackPanel>
                     <TextBlock HorizontalAlignment="Center" Margin="1" FontSize="10"><Run Text="Транзакции"/></TextBlock>
                 </StackPanel>
+            </Button>
+            <Button Height="70" Width="100" HorizontalAlignment="Left" Name="btnSearch" VerticalAlignment="Top" Click="btnSearch_Click">
+                <Button.Content>
+                    <StackPanel>
+                        <TextBlock HorizontalAlignment="Center" Margin="1" FontSize="10">Поиск</TextBlock>
+                    </StackPanel>
+                </Button.Content>
+                <Button.ToolTip>Поиск данных</Button.ToolTip>
             </Button>
         </StackPanel>
         <StackPanel HorizontalAlignment="Right" Margin="0,0" VerticalAlignment="Top" Width="100" Grid.Row="1" Grid.Column="2">

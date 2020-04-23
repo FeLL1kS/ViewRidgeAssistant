@@ -103,6 +103,29 @@ namespace VRA.DataAccess
             }
         }
 
+        public IList<Artist> SearchArtists(string Name, string Nation)
+        {
+            IList<Artist> artists = new List<Artist>();
+            using (var conn = GetConnection())
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = "SELECT ArtistID,Name, BirthYear, DeceaseYear, Artist.NatID FROM ARTIST JOIN Nation on Artist.NatID = Nation.NatID WHERE Name like @Name AND Value like @Nation";
+                    cmd.Parameters.AddWithValue("@Name", "%" + Name + "%");
+                    cmd.Parameters.AddWithValue("@Nation", "%" + Nation);
+                    using(var dataReader = cmd.ExecuteReader())
+                    {
+                        while(dataReader.Read())
+                        {
+                            artists.Add(LoadArtist(dataReader));
+                        }
+                        return artists;
+                    }
+                }
+            }
+        }
+
         private static Artist LoadArtist(SqlDataReader reader)
         {
             //Создаём пустой объект

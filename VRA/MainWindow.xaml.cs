@@ -640,5 +640,25 @@ namespace VRA
             //this.btnSearch.Visibility = Visibility.Visible;
             Refresh_Click(sender, e);
         }
+
+        private void btnSearch_Click(object sender, RoutedEventArgs e)
+        {
+            SearchWindow search = new SearchWindow(status);
+            {
+                switch(status)
+                {
+                    case "Artist":
+                        search.ShowDialog();
+                        if(search.exec)
+                        {
+                            this.dgArtists.ItemsSource = search.FindedArtists;
+                        }
+                        break;
+                    default:
+                        MessageBox.Show("Для поиска необходимо выбрать таблицу!");
+                        break;
+                }
+            };
+        }
     }
 }
