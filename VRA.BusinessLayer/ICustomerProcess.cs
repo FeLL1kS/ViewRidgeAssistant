@@ -13,5 +13,6 @@ namespace VRA.BusinessLayer
         void Add(CustomerDto customer);
         void Update(CustomerDto customer);
         void Delete(int id);
+        IList<CustomerDto> SearchCustomer(string Name);
     }
 }

@@ -41,5 +41,10 @@ namespace VRA.BusinessLayer
         {
             _transactionDao.Update(DtoConverter.Convert(transaction));
         }
+
+        public IList<TransactionDto> SearchTransaction(string CustomerID, string SalesPrice, DateTime? DateAcquiredFrom = null, DateTime? DateAcquiredTo = null)
+        {
+            return DtoConverter.Convert(_transactionDao.SearchTransaction(CustomerID, SalesPrice, DateAcquiredFrom, DateAcquiredTo));
+        }
     }
 }

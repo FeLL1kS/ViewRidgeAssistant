@@ -45,7 +45,7 @@ namespace VRA.DataAccess
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = "SELECT WorkID, ArtistID, Title, Copy, Description FROM Work WHERE ArtistID = @ID";
+                    cmd.CommandText = "SELECT WorkID, ArtistID, Title, Copy, Description FROM Work WHERE WorkID = @ID";
                     cmd.Parameters.AddWithValue("@ID", id);
                     using (var dataReader = cmd.ExecuteReader())
                     {

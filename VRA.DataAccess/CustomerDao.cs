@@ -85,6 +85,29 @@ namespace VRA.DataAccess
             }
         }
 
+        public IList<Customer> SearchCustomer(string Name)
+        {
+            IList<Customer> customers = new List<Customer>();
+            using (var conn = GetConnection())
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = "SELECT CustomerID, E_mail, Name, AreaCode, HouseNumber, Street, City, Region, ZipPostalCode, Country, PhoneNumber FROM Customer WHERE Name LIKE @Name";
+                    cmd.Parameters.AddWithValue("@Name", "%" + "Name" + "%");
+                    using (var dataReader = cmd.ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            customers.Add(LoadCustomer(dataReader));
+                        }
+
+                        return customers;   
+                    }
+                }
+            }
+        }
+
         public void Update(Customer customer)
         {
             using (var conn = GetConnection())

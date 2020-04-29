@@ -121,6 +121,43 @@ namespace VRA.DataAccess
             }
         }
 
+        public IList<Transaction> SearchTransaction(string CustomerID, string SalesPrice, DateTime? DateAcquiredFrom = null, DateTime? DateAcquiredTo = null)
+        {
+            IList<Transaction> transactions = new List<Transaction>();
+            using (var conn = GetConnection())
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    if(DateAcquiredFrom == null)
+                    {
+                        cmd.CommandText = "SELECT TransID, CustomerID, WorkID, DateAcquired, AcquisitionPrice, PurchaseDate, SalesPrice, AskingPrice FROM Trans WHERE SalesPrice LIKE @SalesPrice and CustomerID LIKE @CustomerID";
+                    }
+                    else if(DateAcquiredTo == null)
+                    {
+                        cmd.CommandText = "SELECT TransID, CustomerID, WorkID, DateAcquired, AcquisitionPrice, PurchaseDate, SalesPrice, AskingPrice FROM Trans WHERE SalesPrice LIKE @SalesPrice and CustomerID LIKE @CustomerID and DateAcquired > @DateAcquiredFrom";
+                        cmd.Parameters.AddWithValue("@DateAcquiredFrom", DateAcquiredFrom.ToString());
+                    }
+                    else
+                    {
+                        cmd.CommandText = "SELECT TransID, CustomerID, WorkID, DateAcquired, AcquisitionPrice, PurchaseDate, SalesPrice, AskingPrice FROM Trans WHERE SalesPrice LIKE @SalesPrice and CustomerID LIKE @CustomerID and DateAcquired > @DateAcquiredFrom and DateAcquired < @DateAcquiredTo";
+                        cmd.Parameters.AddWithValue("@DateAcquiredFrom", DateAcquiredFrom.ToString());
+                        cmd.Parameters.AddWithValue("@DateAcquiredTo", DateAcquiredTo.ToString());
+                    }
+                    cmd.Parameters.AddWithValue("@CustomerID", "%" + CustomerID);
+                    cmd.Parameters.AddWithValue("@SalesPrice", "%" + SalesPrice + "%");
+                    using (var dataReader = cmd.ExecuteReader())
+                    {
+                        while(dataReader.Read())
+                        {
+                            transactions.Add(LoadTransaction(dataReader));
+                        }
+                        return transactions;
+                    }
+                }
+            }
+        }
+
         private static Transaction LoadTransaction(SqlDataReader dataReader)
         {
             Transaction transaction = new Transaction()

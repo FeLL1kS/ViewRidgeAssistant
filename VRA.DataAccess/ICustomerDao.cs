@@ -13,5 +13,6 @@ namespace VRA.DataAccess
         void Add(Customer customer);
         void Update(Customer customer);
         void Delete(int id);
+        IList<Customer> SearchCustomer(string Name);
     }
 }

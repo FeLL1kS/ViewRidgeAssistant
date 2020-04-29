@@ -31,8 +31,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EPPlus, Version=5.1.1.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPPlus.5.1.1\lib\net40\EPPlus.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -43,7 +51,9 @@
     <Compile Include="ArtistProcessDb.cs" />
     <Compile Include="Converters\DtoConverter.cs" />
     <Compile Include="CustomerArtistINTProcessDb.cs" />
+    <Compile Include="IReportGenerator.cs" />
     <Compile Include="ITransactionProcess.cs" />
+    <Compile Include="ReportGenerator.cs" />
     <Compile Include="TransactionProcessDb.cs" />
     <Compile Include="WorkProcessDb.cs" />
     <Compile Include="CustomerProcessDb.cs" />
@@ -67,6 +77,9 @@
       <Project>{42cb4346-6732-4175-af48-804fe9aa854f}</Project>
       <Name>VRA.Dto</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

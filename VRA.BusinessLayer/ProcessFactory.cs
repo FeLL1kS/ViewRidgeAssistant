@@ -43,5 +43,10 @@ namespace VRA.BusinessLayer
         {
             return new TransactionProcessDb();
         }
+
+        public static IReportGenerator GetReportGenerator()
+        {
+            return new ReportGenerator();
+        }
     }
 }

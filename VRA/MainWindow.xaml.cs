@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -654,11 +656,62 @@ namespace VRA
                             this.dgArtists.ItemsSource = search.FindedArtists;
                         }
                         break;
+                    case "Trans":
+                        search.ShowDialog();
+                        if(search.exec)
+                        {
+                            this.dgTrans.ItemsSource = search.FindedTransactions;
+                        }
+                        break;
                     default:
                         MessageBox.Show("Для поиска необходимо выбрать таблицу!");
                         break;
                 }
             };
+        }
+
+        private void ExelExporterButton_Click(object sender, RoutedEventArgs e)
+        {
+            IList<object> grid = null;
+
+            switch (status)
+            {
+                case "Customers":
+                    grid = this.dgCustomer.ItemsSource.Cast<object>().ToList();
+                    break;
+                case "Artists":
+                    grid = this.dgArtists.ItemsSource.Cast<object>().ToList();
+                    break;
+                case "Work":
+                    grid = this.dgWork.ItemsSource.Cast<object>().ToList();
+                    break;
+                case "Trans":
+                    grid = this.dgTrans.ItemsSource.Cast<object>().ToList();
+                    break;
+                case "Interests":
+                    grid = this.dgInterests.ItemsSource.Cast<object>().ToList();
+                    break;
+                case "Nations":
+                    grid = this.dgNations.ItemsSource.Cast<object>().ToList();
+                    break;
+            }
+
+            SaveFileDialog saveXlsxDialog = new SaveFileDialog
+            {
+                DefaultExt = ".xlsx",
+                Filter = "Excel Files (.xlsx)|*.xlsx",
+                AddExtension = true,
+                FileName = status
+            };
+
+            bool? result = saveXlsxDialog.ShowDialog();
+
+            if (result == true)
+            {
+                FileInfo xlsxFile = new FileInfo(saveXlsxDialog.FileName);
+
+                ProcessFactory.GetReportGenerator().fillExcelTableByType(grid, status, xlsxFile);
+            }
         }
     }
 }

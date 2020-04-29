@@ -22,7 +22,9 @@ namespace VRA
     {
         private readonly IList<ArtistDto> AllowArtists;
         private readonly IList<NationDto> AllowNations;
+        private readonly IList<CustomerDto> AllowCustomers;
         public IList<ArtistDto> FindedArtists;
+        public IList<TransactionDto> FindedTransactions;
         public bool exec;
 
         public SearchWindow(string status)
@@ -30,17 +32,23 @@ namespace VRA
             InitializeComponent();
             AllowArtists = ProcessFactory.GetArtistProcess().GetList();
             AllowNations = ProcessFactory.GetNationProcess().GetList();
+            AllowCustomers = ProcessFactory.GetCustomerProcess().GetList();
 
             this.cbArtistCountry.ItemsSource = AllowNations;
+            this.cbCustomers.ItemsSource = AllowCustomers;
 
             switch( status )
             {
                 case "Artist":
-                    this.SearchTab.SelectedIndex = 1;
+                    this.SearchTab.SelectedIndex = 0;
                     //this.sCustomer.Visibility = false;
                     //this.sWork.Visibility = false;
                     //this.tiInterests.Visibility = false;
-                    //this.sTransaction.Visibility = false;
+                    this.sTransaction.Visibility = Visibility.Collapsed;
+                    break;
+                case "Trans":
+                    this.SearchTab.SelectedIndex = 1;
+                    this.sArtist.Visibility = Visibility.Collapsed;
                     break;
             }
         }
@@ -53,6 +61,41 @@ namespace VRA
         private void SearchArtist(object sender, RoutedEventArgs e)
         {
             this.FindedArtists = ProcessFactory.GetArtistProcess().SearchArtists(this.ArtistName.Text, this.cbArtistCountry.Text);
+            this.exec = true;
+            this.Close();
+        }
+
+        private void SearchTransaction(object sender, RoutedEventArgs e)
+        {
+            if(dpDateAcquiredFrom.Text == "" && dpDateAcquiredTo.Text != "")
+            {
+                MessageBox.Show("Необходимо так же заполнить поле \"Дата приобретения от\"!", "Ошибка");
+                return;
+            }
+
+            string CustomerID = "";
+            foreach(CustomerDto customer in AllowCustomers)
+            {
+                if(customer.Name == cbCustomers.Text)
+                {
+                    CustomerID = customer.Id.ToString();
+                    break;
+                }
+            }
+
+            DateTime? DateAcquiredFrom = null;
+            DateTime? DateAcquiredTo = null;
+
+            if (dpDateAcquiredFrom.Text != "")
+            {
+                DateAcquiredFrom = DateTime.Parse(dpDateAcquiredFrom.Text);
+            }
+            if (dpDateAcquiredTo.Text != "")
+            {
+                DateAcquiredTo = DateTime.Parse(dpDateAcquiredTo.Text);
+            }
+
+            this.FindedTransactions = ProcessFactory.GetTransactionProcess().SearchTransaction(CustomerID, this.tbSalesPrice.Text, DateAcquiredFrom, DateAcquiredTo);
             this.exec = true;
             this.Close();
         }

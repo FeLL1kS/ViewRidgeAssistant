@@ -33,6 +33,35 @@
                     </StackPanel>
                 </Grid>
             </TabItem>
+            <TabItem x:Name="sTransaction" Header="Поиск Транзакции">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Row="0" Grid.Column="0" Margin="3" Text="Поиск по клиенту"/>
+                    <TextBlock Grid.Row="1" Grid.Column="0" Margin="3" Text="Поиск по цене продажи"/>
+                    <TextBlock Grid.Row="2" Grid.Column="0" Margin="3" Text="Дата приобретения от"/>
+                    <TextBlock Grid.Row="3" Grid.Column="0" Margin="3" Text="Дата приобретения до"/>
+                    <ComboBox Name="cbCustomers" ItemsSource="{Binding}" DisplayMemberPath="Name" Grid.Row="0" Grid.Column="1" Margin="3" Width="200" HorizontalAlignment="Left"/>
+                    <TextBox Name="tbSalesPrice" Grid.Row="1" Grid.Column="1" Margin="3" Width="200" HorizontalAlignment="Left"/>
+                    <DatePicker Name="dpDateAcquiredFrom" Grid.Row="2" Grid.Column="1" Margin="3" Width="200" HorizontalAlignment="Left"/>
+                    <DatePicker Name="dpDateAcquiredTo" Grid.Row="3" Grid.Column="1" Margin="3" Width="200" HorizontalAlignment="Left"/>
+                    <StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button x:Name="btnSearchTransaction" Content="Принять" Margin="3" Width="70" Click="SearchTransaction"/>
+                        <Button x:Name="btnCancelT" Content="Отмена" Margin="3" Width="70" Click="CloseForm"/>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
         </TabControl>
     </Grid>
 </Window>

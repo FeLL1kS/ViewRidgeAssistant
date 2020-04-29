@@ -80,7 +80,7 @@
                 <MenuItem Name="dataBaseS" Header="Настроить соединение с имеющейся БД" Click="btnDatabase_Click"/>
             </MenuItem>
             <MenuItem Name="Reports" Header="Отчеты">
-                <MenuItem Name="ExelExporterButton" Header="Экспорт таблицы Excel" />
+                <MenuItem Name="ExelExporterButton" Header="Экспорт таблицы Excel" Click="ExelExporterButton_Click"/>
             </MenuItem>
             <MenuItem Name = "About" Header="О программе" ></MenuItem>
         </Menu>

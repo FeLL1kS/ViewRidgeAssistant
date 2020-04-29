@@ -41,5 +41,10 @@ namespace VRA.BusinessLayer
         {
             _customerDao.Update(DtoConverter.Convert(customer));
         }
+
+        public IList<CustomerDto> SearchCustomer(string Name)
+        {
+            return DtoConverter.Convert(_customerDao.SearchCustomer(Name));
+        }
     }
 }

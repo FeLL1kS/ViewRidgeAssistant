@@ -13,5 +13,6 @@ namespace VRA.DataAccess
         void Add(Transaction transaction);
         void Update(Transaction transaction);
         void Delete(int id);
+        IList<Transaction> SearchTransaction(string CustomerID, string SalesPrice, DateTime? DateAcquiredFrom = null, DateTime? DateAcquiredTo = null);
     }
 }
