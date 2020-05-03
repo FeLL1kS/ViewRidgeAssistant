@@ -281,5 +281,39 @@ namespace VRA.BusinessLayer.Converters
             }
             return workDtos;
         }
+
+        public static ReportItemDto Convert(Report report)
+        {
+            if (report == null)
+                return null;
+            ReportItemDto reportDto = new ReportItemDto()
+            {
+                Date = report.Date.ToString(),
+                Count = report.Count,
+                Price = report.Price
+            };
+            return reportDto;
+        }
+        public static Report Convert(ReportItemDto reportDto)
+        {
+            if (reportDto == null)
+                return null;
+            Report report = new Report()
+            {
+                Date = DateTime.Parse(reportDto.Date),
+                Count = reportDto.Count,
+                Price = reportDto.Price
+            };
+            return report;
+        }
+        internal static IList<ReportItemDto> Convert(IList<Report> reports)
+        {
+            IList<ReportItemDto> reportDtos = new List<ReportItemDto>();
+            foreach (Report report in reports)
+            {
+                reportDtos.Add(Convert(report));
+            }
+            return reportDtos;
+        }
     }
 }

@@ -753,5 +753,10 @@ namespace VRA
             }
         }
 
+        private void GraphReportButton_Click(object sender, RoutedEventArgs e)
+        {
+            var window = new ReportWindow();
+            window.Show();
+        }
     }
 }

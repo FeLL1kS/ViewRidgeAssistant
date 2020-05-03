@@ -42,10 +42,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ArtistDao.cs" />
+    <Compile Include="Entities\Report.cs" />
     <Compile Include="Entities\Transaction.cs" />
     <Compile Include="Entities\WorkInGallery.cs" />
+    <Compile Include="IReport.cs" />
     <Compile Include="ITransactionDao.cs" />
     <Compile Include="IWorkInGalleryDao.cs" />
+    <Compile Include="ReportDao.cs" />
     <Compile Include="TransactionDao.cs" />
     <Compile Include="WorkDao.cs" />
     <Compile Include="BaseDao.cs" />

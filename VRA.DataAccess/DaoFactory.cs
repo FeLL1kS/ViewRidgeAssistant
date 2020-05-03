@@ -44,5 +44,10 @@ namespace VRA.DataAccess
         {
             return new WorkInGalleryDao();
         }
+
+        public static IReport GetReport()
+        {
+            return new ReportDao();
+        }
     }
 }

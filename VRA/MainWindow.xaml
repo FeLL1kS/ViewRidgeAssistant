@@ -82,6 +82,7 @@
             <MenuItem Name="Reports" Header="Отчеты">
                 <MenuItem Name="ExelExporterButton" Header="Экспорт таблицы Excel" Click="ExelExporterButton_Click"/>
                 <MenuItem Name="HtmlWorksInGalleryButton" Header="Прайс-лист работ" Click="HtmlWorksInGalleryButton_Click"/>
+                <MenuItem Name="GraphReportButton" Header="Отчет по продажам" Click="GraphReportButton_Click"/>
             </MenuItem>
             <MenuItem Name = "About" Header="О программе" ></MenuItem>
         </Menu>
