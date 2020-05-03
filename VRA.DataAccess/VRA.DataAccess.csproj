@@ -43,7 +43,9 @@
   <ItemGroup>
     <Compile Include="ArtistDao.cs" />
     <Compile Include="Entities\Transaction.cs" />
+    <Compile Include="Entities\WorkInGallery.cs" />
     <Compile Include="ITransactionDao.cs" />
+    <Compile Include="IWorkInGalleryDao.cs" />
     <Compile Include="TransactionDao.cs" />
     <Compile Include="WorkDao.cs" />
     <Compile Include="BaseDao.cs" />
@@ -64,6 +66,7 @@
     <Compile Include="NationDao.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SettingsDao.cs" />
+    <Compile Include="WorkInGalleryDao.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

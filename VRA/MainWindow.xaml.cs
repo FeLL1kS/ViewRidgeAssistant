@@ -713,5 +713,45 @@ namespace VRA
                 ProcessFactory.GetReportGenerator().fillExcelTableByType(grid, status, xlsxFile);
             }
         }
+        private void HtmlWorksInGalleryButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Объект для хранения шаблона.
+            String rep;
+            // Создаем объект для подгрузки нашего шаблона.
+            OpenFileDialog dlg = new OpenFileDialog
+            {
+                DefaultExt = ".vrt",
+                Filter = "View Ridge Assistant Template files | *.vrt"
+            };
+            // Подгружаем наш шаблон.
+            bool? result = dlg.ShowDialog();
+            // Если шаблон погрузился, то сохраняем его в rep.
+            if (result == true)
+            {
+                StreamReader sr = new StreamReader(dlg.FileName);
+                rep = sr.ReadToEnd();
+                sr.Close();
+            }
+            else
+            {
+                return;
+            }
+            // Получаем итоговый html код файла.
+            string full_rep = ProcessFactory.GetReportGenerator().genHtmlWorksInGallery(rep);
+            // Сохраняем html файл в указанную директорию.
+            SaveFileDialog sdlg = new SaveFileDialog
+            {
+                DefaultExt = ".html",
+                Filter = "Html Documents(.html) | *.html"
+            };
+            if (sdlg.ShowDialog() == true)
+            {
+                string filename = sdlg.FileName;
+                StreamWriter sw = new StreamWriter(filename);
+                sw.WriteLine(full_rep);
+                sw.Close();
+            }
+        }
+
     }
 }

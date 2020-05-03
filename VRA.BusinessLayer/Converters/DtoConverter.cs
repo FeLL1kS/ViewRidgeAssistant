@@ -242,5 +242,44 @@ namespace VRA.BusinessLayer.Converters
             }
             return transactionDtos;
         }
+        public static WorkInGalleryDto Convert(WorkInGallery work)
+        {
+            if (work == null)
+                return null;
+            WorkInGalleryDto workDto = new WorkInGalleryDto()
+            {
+                WorkID = work.WorkID,
+                AskingPrice = work.AskingPrice,
+                Copy = work.Copy,
+                Description = work.Description,
+                Name = work.Name,
+                Title = work.Title
+            };
+            return workDto;
+        }
+        public static WorkInGallery Convert(WorkInGalleryDto workDto)
+        {
+            if (workDto == null)
+                return null;
+            WorkInGallery work = new WorkInGallery()
+            {
+                WorkID = workDto.WorkID,
+                AskingPrice = workDto.AskingPrice,
+                Copy = workDto.Copy,
+                Description = workDto.Description,
+                Name = workDto.Name,
+                Title = workDto.Title
+            };
+            return work;
+        }
+        internal static IList<WorkInGalleryDto> Convert(IList<WorkInGallery> works)
+        {
+            IList<WorkInGalleryDto> workDtos = new List<WorkInGalleryDto>();
+            foreach (WorkInGallery work in works)
+            {
+                workDtos.Add(Convert(work));
+            }
+            return workDtos;
+        }
     }
 }

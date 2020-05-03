@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Windows;
+using VRA.DataAccess;
 using VRA.Dto;
 
 namespace VRA.BusinessLayer
@@ -98,6 +99,29 @@ namespace VRA.BusinessLayer
                 pck.Save();
             }
             else MessageBox.Show("Данные не загружены!");
+        }
+
+        public string genHtmlWorksInGallery(string rep)
+        {
+            // Получаем список работ на продажу.
+            List<object> works = ProcessFactory.GetWorkInGalleryProcess().GetAll().Cast<object>().ToList();
+            // Начинаем заполнять строку html кода. Для начала строка с заголовками таблицы.
+            string res_html = "<tr><td><b> Код </b></td><td><b> Название </b></td><td><b> Художник </b></td><td><b> Цена </b> </td><td><b> Описание </b></td></ tr >";
+            // Заполняет таблицу объектами.
+            foreach (var work in works)
+            {
+                WorkInGalleryDto WorkItem = (WorkInGalleryDto)work;
+                res_html += "<tr><td><p>" + WorkItem.WorkID + "</p></td>";
+                // Если заполнено поле "Копия", то дописываем его к имени в скобках.
+                res_html += WorkItem.Copy != string.Empty ? "<td><p>" + WorkItem.WorkID + " (" +WorkItem.Copy + ")" + "</p></td>" : "<td><p>" + WorkItem.WorkID + "</p></td>";
+                res_html += "<td><p>" + WorkItem.Name + "</p></td>";
+                res_html += "<td><p>" + WorkItem.AskingPrice + "</p></td>";
+                res_html += "<td><p>" + (WorkItem.Description ?? "") + "</p></td></tr>";
+            }
+            // Применяем наш подгруженный шаблон.
+            res_html = rep.Replace("[VRA_TABLE_REPORT]", res_html);
+            // Возвращаем заполненный html файл.
+            return res_html;
         }
     }
 }

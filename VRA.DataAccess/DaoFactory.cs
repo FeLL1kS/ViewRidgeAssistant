@@ -39,5 +39,10 @@ namespace VRA.DataAccess
         {
             return new TransactionDao();
         }
+
+        public static IWorkInGalleryDao GetWorkInGalleryDao()
+        {
+            return new WorkInGalleryDao();
+        }
     }
 }
